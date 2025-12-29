@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Custom Magic Jumpstart Compiler</title>
+<meta charset="UTF-8">
+<meta name="description" content="Compiler used for Custom Magic jumpstart playtesting. Currently set up for 
+the Star Wars Comic Jumpstart series.">
+<style>
+
+      *{
+        margin: 0;
+        padding: 0;
+      }
+      
+	  @font-face{
+		font-family: "Bank Gothic";
+		src: url('BankGothic Bold.ttf');
+	  }
+	  
+	  html{
+		height: 100%;
+	  }
+	  
+	  body{
+		font-family: "Bank Gothic";
+		background-image: url('grey-blue-marble-texture 4.png');
+		background-size: 100% 1000px;
+		background-repeat: repeat-y;
+		height: 100%;
+	  }
+	  
+	  button{
+		width: 100%;
+		height: 100%;
+		appearance: none; 
+		background-color: transparent;
+		border: transparent
+      }
+	  
+      img{
+        width: 95%;
+		border: 4px solid transparent;
+		border-radius: 5.5%;
+		cursor: pointer;
+		appearance: none
+      }
+	  
+	  .headerText{
+		color: #755301;
+		text-align: center;
+		padding-top: 0%;
+		font-size: 200%;
+		line-height: 1;
+		display: inline-block;
+		vertical-align: middle;
+	  }
+	  
+	  td{
+		text-align: center;
+	  }
+	  
+	  .downloadButtonImage{
+		border: none;
+		border-radius: 0px;
+		margin-top: 6%;
+		width: 45%;
+		opacity: 0.2;
+		cursor: default;
+	  }
+	  
+	  .compiledLine{
+		margin-top: 0%;
+		margin-left: auto;
+		margin-right: auto;
+		background-image: url('goldbar.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: 100% 100%;
+		height: 100%;
+	  }
+	  
+	  .imageGrid{
+		height: 100%;
+	  }
+	  
+	  .deckname{
+		color: white;
+		width: 20%;
+	  }
+	  
+	  .compiledHeader{
+		width: 85%;
+	  }
+	  
+	  .downloadButton{
+		text-align: center;
+	  }
+	  
+	  .headerContainer{
+		z-index: -1;
+		background-image: url('goldbar.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: 100% 100%;
+		width: 75%;
+		height: 60px;
+		line-height: 60px;
+		margin-top: 1%;
+		margin-bottom: 1%;
+		margin-left: auto;
+		margin-right: auto;
+		text-align: center;
+	  }
+	  
+	  .aboutTab{
+		width: 98%;
+		background-image: url('goldbarTrim.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: 100% 100%;
+		height: 8%;
+		margin-top: 6%;
+	  }
+	  
+	  .aboutTabImg{
+		width: 22%;
+		height: 5%;
+		margin-top: 0.5%;
+	  }
+	  
+	  .compilerTab{
+		width: 98%;
+		background-image: url('goldbarTrim.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: 100% 100%;
+		height: 8%;
+		margin-top: 6%;
+	  }
+	  
+	  .compilerTabImg{
+		position: absolute;
+		width: 22%;
+		height: 5%;
+		margin-top: 4.5%;
+	  }
+	  
+	  .galleryTab{
+		width: 98%;
+		background-image: url('goldbarTrim.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: 100% 100%;
+		height: 8%;
+		margin-top: 6%;
+	  }
+	  
+	  .galleryTabImg{
+		position: absolute;
+		width: 22%;
+		height: 5%;
+		margin-top: 4.5%;
+	  }
+	  
+	  .downloadTab{
+		width: 98%;
+		background-image: url('goldbarTrim.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: 100% 100%;
+		height: 8%;
+		margin-top: 6%;
+	  }
+	  
+	  .aboutTabText{
+		font-family: "Bank Gothic";
+		z-index: 100;
+		margin-top: 1.2%;
+		margin-left: 0%;
+		font-size: 180%;
+		color: #755301;
+		display: block;
+		cursor: pointer;
+	  }
+	  
+	  .compilerTabText{
+		font-family: "Bank Gothic";
+		z-index: 100;
+		margin-top: 1.2%;
+		margin-left: 0%;
+		font-size: 180%;
+		color: #755301;
+		display: block;
+		cursor: pointer;
+	  }
+	  
+	  .galleryTabText{
+		font-family: "Bank Gothic";
+		z-index: 101;
+		margin-top: 5.2%;
+		margin-left: 0%;
+		font-size: 180%;
+		color: #755301;
+		cursor: pointer;
+	  }
+	  
+	  .downloadTabText{
+		font-family: "Bank Gothic";
+		z-index: 101;
+		margin-top: 5.2%;
+		margin-left: 0%;
+		font-size: 180%;
+		color: #755301;
+		cursor: pointer;
+	  }
+	  
+	  .randomButton{
+		width: 45%;
+	  }
+	  
+	  .compiledHeader{
+		color: #755301;
+	  }
+	  
+	  .randomButtonContainer{
+		height: 120%;
+	  }
+	  
+	  .buttonImg{
+		height: 100%;
+	  }
+	  
+	  .compiledLineContainer{
+		margin-left: auto;
+		margin-right: auto;
+		width: 70%;
+	  }
+	  
+	  .center-align {
+		margin: 0 auto;
+	  }
+	  
+	  .leftCol {
+		text-align:left; 
+		vertical-align:top;
+	  }
+	  
+    </style>
+</head>
+
+<body>
+
+<table class="masterTable" style="height:100%; border-spacing:0">
+
+	<tr style="height:12.5%">
+		<td colspan="3">
+			<div class="headerContainer">
+				<h1 class="headerText" align="center">Select two Jumpstart packs to compile</h1>
+			</div>
+		</td>
+	</tr>
+	
+	<tr class="middleRow" style="height:75%">
+		<td class="leftCol">
+			<button class="aboutTab" onclick="compilerLink('Vault AboutPage.html')">
+				<a class="aboutTabText" onclick="compilerLink('Vault AboutPage.html')">ABOUT</a>
+			</button>
+		
+			<button class="compilerTab" onclick="compilerLink('default.html')">
+				<a class="compilerTabText" onclick="compilerLink('default.html')">COMPILER</a>
+			</button>
+
+			<button class="galleryTab" onclick="compilerLink('Vault Gallery.html')">
+				<a class="galleryTabText" onclick="compilerLink('Vault Gallery.html')">GALLERY</a>
+			</button>
+			
+			<button class="downloadTab" onclick="compilerLink('Vault DownloadPage.html')">
+				<a class="downloadTabText" onclick="compilerLink('Vault DownloadPage.html')">DOWNLOAD</a>
+			</button>
+		</td>
+		<td class="middleCol">
+			<table class="imageGrid" style="solid black;margin-left:auto;margin-right:auto;">
+				<tr>
+					<td class="tableCell">
+					<button class="buttonButton" type="button" onclick="borderFcn(button1,false)" onmouseover="hoverFcn(button1,1)" onmouseleave="hoverFcn(button1,2)">
+						<img id="button1" class="buttonImg" src="ATNAS' WORKSHOP.png">
+					</button>
+					</td class="tableCell">
+					<td class="tableCell">
+					<button class="buttonButton" type="button" onclick="borderFcn(button2,false)" onmouseover="hoverFcn(button2,1)" onmouseleave="hoverFcn(button2,2)">
+						<img id="button2" class="buttonImg" src="SNOW DAY.png">
+					</button>
+					</td>
+					<td class="tableCell">
+					<button class="buttonButton" type="button" onclick="borderFcn(button3,false)" onmouseover="hoverFcn(button3,1)" onmouseleave="hoverFcn(button3,2)">
+						<img id="button3" class="buttonImg" src="SLAY BELLS.png">
+					</button>
+					</td>
+					<td class="tableCell">
+					<button class="buttonButton" type="button" onclick="borderFcn(button4,false)" onmouseover="hoverFcn(button4,1)" onmouseleave="hoverFcn(button4,2)">
+						<img id="button4" class="buttonImg" src="COAL CRAZY.png">
+					</button>
+					</td>
+					<td class="tableCell">
+					<button class="buttonButton" type="button" onclick="borderFcn(button5,false)" onmouseover="hoverFcn(button5,1)" onmouseleave="hoverFcn(button5,2)">
+						<img id="button5" class="buttonImg" src="WINTER WOODS.png">
+					</button>
+					</td>
+					<td class="tableCell">
+					<button class="buttonButton" type="button" onclick="borderFcn(button6,false)" onmouseover="hoverFcn(button6,1)" onmouseleave="hoverFcn(button6,2)">
+						<img id="button6" class="buttonImg" src="THIRST.png">
+					</button>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tableCell">
+					<button class="buttonButton" type="button" onclick="borderFcn(button7,false)" onmouseover="hoverFcn(button7,1)" onmouseleave="hoverFcn(button7,2)">
+						<img id="button7" class="buttonImg" src="EARLY BIRDS.png">
+					</button>
+					</td>
+					<td class="tableCell">
+					<button class="buttonButton" type="button" onclick="borderFcn(button8,false)" onmouseover="hoverFcn(button8,1)" onmouseleave="hoverFcn(button8,2)">
+						<img id="button8" class="buttonImg" src="TIME TURNERS.png">
+					</button>
+					</td>
+					<td class="tableCell">
+					<button class="buttonButton" type="button" onclick="borderFcn(button9,false)" onmouseover="hoverFcn(button9,1)" onmouseleave="hoverFcn(button9,2)">
+						<img id="button9" class="buttonImg" src="NIGHT OWLS.png">
+					</button>
+					</td>
+					<td class="tableCell">
+					<button class="buttonButton" type="button" onclick="borderFcn(button10,false)" onmouseover="hoverFcn(button10,1)" onmouseleave="hoverFcn(button10,2)">
+						<img id="button10" class="buttonImg" src="GIFT OF GIVING.png">
+					</button>
+					</td>
+					<td class="tableCell">
+					<button class="buttonButton" type="button" onclick="borderFcn(button11,false)" onmouseover="hoverFcn(button11,1)" onmouseleave="hoverFcn(button11,2)">
+						<img id="button11" class="buttonImg" src="SLEEPYHEADS.png">
+					</button>
+					</td>
+				</tr>
+
+			</table>
+		</td>
+		<td>
+		</td>
+	</tr>
+	
+	<tr style="height:12.5%">
+		<td class="bottomLeft" style="width:12.5%">
+		
+		</td>
+		<td>
+			<table class="compiledLineContainer">
+				<tr>
+					<td style="width:85%">
+						<table class="compiledLine">
+							<tr>
+								<td class="compiledHeader">
+									<h1 class="compiledHeaderText" align="center">Download decklist</h1>
+								</td>
+								<td class="downloadButtonContainer" style="width:10%">
+									<button id="downloadButton" class="downloadButton" onclick="downloadDecklist(buttonArray[0].id,buttonArray[1].id)" disabled>
+										<img id="downloadButtonImage" class="downloadButtonImage" src="downloadIcon.png">
+									</button>
+								</td>
+								<td>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td class="randomButtonContainer">
+						<button id="randomButton" class="randomButton" onclick="borderFcn(button1,true)">
+							<img id="randomButtonImage" class="randomButtonImage" src="randomIconCoin.png">
+						</button>
+					</td>
+				</tr>
+			</table>
+		</td>
+		<td class="bottomRight" style="width:12.5%" onload="sizingScript();">
+		
+		</td>
+	</tr>
+
+</table>
+
+<script>
+	
+// Constant stuff in the beginning and end of every deck file	
+const topMatter = '<?xml version="1.0" encoding="UTF-8"?>' + "\n" + '<cockatrice_deck version="1">' + "\n" + '    <deckname></deckname>' + "\n" + '    <comments></comments>' + "\n" + '    <zone name="main">';
+const bottomMatter = '    </zone>' + "\n" + '</cockatrice_deck>';	
+	
+const decklistArray = [];
+
+decklistArray[0] = 
+`	<card number="1" name="Aid of the Hannukah Gnomes"/>
+	<card number="1" name="Atnas' Big Helper"/>
+	<card number="1" name="Atnas' Ousting"/>
+	<card number="1" name="Atnas, Lord of the Workshop"/>
+	<card number="1" name="Boreal Weaver"/>
+	<card number="1" name="Mouths to Feed"/>
+	<card number="1" name="Rancher-Sheriff"/>
+	<card number="1" name="Silent Night"/>
+	<card number="1" name="Snowball Shaper"/>
+	<card number="1" name="Top Elf"/>
+	<card number="1" name="Bauble Brawler"/>
+	<card number="1" name="Potion of Alacrity"/>
+	<card number="1" name="Thriving Workshop"/>
+	<card number="7" name="Plains"/>`;
+
+decklistArray[1] = 
+`	<card number="1" name="Caller of Winter"/>
+	<card number="1" name="Festive Abduction"/>
+	<card number="1" name="Frigid, Snowgenitor"/>
+	<card number="1" name="Frostborn Faeseeker"/>
+	<card number="1" name="Frosty Snowmage"/>
+	<card number="1" name="Guided by Reindeer"/>
+	<card number="1" name="Lost in Snow"/>
+	<card number="1" name="Midday Snow"/>
+	<card number="1" name="Sehnteh, the Gift-Bearer"/>
+	<card number="1" name="Snowball Fight"/>
+	<card number="1" name="Snowball Slinger"/>
+	<card number="1" name="Winter Alchemist"/>
+	<card number="7" name="Island"/>
+	<card number="1" name="Thriving Cay"/>`;
+	
+decklistArray[2] = 
+`	<card number="1" name="Clarrisa, Interior Designer"/>
+	<card number="1" name="Firecracker Folkbeast"/>
+	<card number="1" name="Gift-Bearer Oni"/>
+	<card number="1" name="Gingerdead Man"/>
+	<card number="1" name="It Came Upon a Midnight Clear"/>
+	<card number="1" name="Krampus, the Deliverer"/>
+	<card number="1" name="Necronomicooking"/>
+	<card number="1" name="Run Away With the Loot"/>
+	<card number="1" name="Spruce Shinobi"/>
+	<card number="1" name="Ten Below"/>
+	<card number="1" name="The Grinch"/>
+	<card number="1" name="Winter's Grasp"/>
+	<card number="7" name="Swamp"/>
+	<card number="1" name="Thriving Cottage"/>`;
+	
+decklistArray[3] =
+`	<card number="1" name="Curse of Melting"/>
+	<card number="1" name="Gather Kindling"/>
+	<card number="1" name="Gift of the Naughty"/>
+	<card number="1" name="Gift-Giver Wyrmling"/>
+	<card number="1" name="Gingerbrute Conductor"/>
+	<card number="1" name="Grincharmonicon"/>
+	<card number="1" name="Loathsome Leftovers"/>
+	<card number="1" name="Phoenix Tamer"/>
+	<card number="1" name="Slay Rider"/>
+	<card number="1" name="Stripes, Stocking-Stuffer"/>
+	<card number="1" name="Turbo-Powered Rocket Sleigh"/>
+	<card number="1" name="Thriving Castle"/>
+	<card number="1" name="Warm Welcome"/>
+	<card number="7" name="Mountain"/>`;
+	
+decklistArray[4] =
+`	<card number="1" name="Alpine Protector"/>
+	<card number="1" name="Flameborn Hunter"/>
+	<card number="1" name="Haunting Ent"/>
+	<card number="1" name="Sylvan Lumberjack"/>
+	<card number="1" name="Skulking Spruce"/>
+	<card number="1" name="Stalwart Lumber"/>
+	<card number="1" name="Dayal, Rimewood Awakener"/>
+	<card number="1" name="Gruesome Sprucesome"/>
+	<card number="1" name="Among the Trees"/>
+	<card number="1" name="Treetop Gathering"/>
+	<card number="1" name="Winter Waryland"/>
+	<card number="1" name="Coldsnap"/>
+	<card number="1" name="Thriving Taiga"/>
+	<card number="7" name="Forest"/>`;
+	
+decklistArray[5] =
+`	<card number="1" name="Starved Vampire"/>
+	<card number="1" name="Vampire's Apprentice"/>
+	<card number="1" name="Cursed Runecaster"/>
+	<card number="1" name="Nightbane Hunter"/>
+	<card number="1" name="Ominous Host"/>
+	<card number="1" name="Syra, Keeper of the Damned"/>
+	<card number="1" name="Stained Baroness"/>
+	<card number="1" name="Enoch, Shadow Eater"/>
+	<card number="1" name="Underhanded Looting"/>
+	<card number="1" name="Violent Transformation"/>
+	<card number="1" name="Chain to the Dark"/>
+	<card number="1" name="Eternal Appetite"/>
+	<card number="1" name="Desolate Castle"/>
+	<card number="7" name="Swamp"/>`;
+	
+decklistArray[6] =
+`	<card number="1" name="Shieldmage's Interference"/>
+	<card number="1" name="Reccorian Ripraptors"/>
+	<card number="1" name="Opal, the Uplifter"/>
+	<card number="1" name="Iriark, Skyship Captain"/>
+	<card number="1" name="Fealtous Flockmaster"/>
+	<card number="1" name="Falconrider's Mastery"/>
+	<card number="1" name="Exotic Robin"/>
+	<card number="1" name="Drop from High"/>
+	<card number="1" name="Cleanbeak Behemoth"/>
+	<card number="1" name="Calm Falconrider"/>
+	<card number="1" name="Aviary Skydancer"/>
+	<card number="1" name="Aerie Matriarch"/>
+	<card number="1" name="Thriving Heath"/>
+	<card number="7" name="Plains"/>`;
+	
+decklistArray[7] =
+`	<card number="1" name="Warphole Hopper"/>
+	<card number="1" name="Timewinder"/>
+	<card number="1" name="Timely Travelers"/>
+	<card number="1" name="Timeless Meditator"/>
+	<card number="1" name="Time Wizard"/>
+	<card number="1" name="Temporal Setback"/>
+	<card number="1" name="Teferi, Changing Time Zones"/>
+	<card number="1" name="Postreschedule"/>
+	<card number="1" name="Gear Keeper"/>
+	<card number="1" name="Extended Slumber"/>
+	<card number="1" name="Eternal One"/>
+	<card number="1" name="Chronocycle"/>
+	<card number="1" name="Thriving Isle"/>
+	<card number="7" name="Island"/>`;
+	
+decklistArray[8] =
+`	<card number="1" name="Screeching Menace"/>
+	<card number="1" name="Scion of the Firmament"/>
+	<card number="1" name="Nightwalker Witch"/>
+	<card number="1" name="Night's Blessing"/>
+	<card number="1" name="Moonmad Marauder"/>
+	<card number="1" name="Moonlit Ascent"/>
+	<card number="1" name="Moment of Nightfall"/>
+	<card number="1" name="Midnight Madness"/>
+	<card number="1" name="Harbinger of Deceit"/>
+	<card number="1" name="Encroaching Night"/>
+	<card number="1" name="Dark Visitor"/>
+	<card number="1" name="Archon of Dusk"/>
+	<card number="1" name="Thriving Moor"/>
+	<card number="7" name="Swamp"/>`;
+	
+decklistArray[9] =
+`	<card number="1" name="Antler Archer"/>
+	<card number="1" name="Generous Gifter"/>
+	<card number="1" name="Gift Seeker"/>
+	<card number="1" name="Guardian of Gifts"/>
+	<card number="1" name="Dashing Postmaster"/>
+	<card number="1" name="Listbearer Mage"/>
+	<card number="1" name="Romantic Rosecloth"/>
+	<card number="1" name="Spirit of Gift Giving"/>
+	<card number="1" name="In the Spirit of Giving"/>
+	<card number="1" name="Chilling Confrontation"/>
+	<card number="1" name="Santa Slash"/>
+	<card number="1" name="Red-Light Sleigh"/>
+	<card number="1" name="Thriving Castle"/>
+	<card number="7" name="Mountain"/>`;
+	
+decklistArray[10] =
+`	<card number="1" name="Warden of Silence"/>
+	<card number="1" name="Slumbering Bear"/>
+	<card number="1" name="Sedentary Behemoths"/>
+	<card number="1" name="Save Your Strength"/>
+	<card number="1" name="Salmon Run"/>
+	<card number="1" name="Rise and Fight"/>
+	<card number="1" name="Resting Raptor"/>
+	<card number="1" name="Primate Sojourner"/>
+	<card number="1" name="Muse of Stirring Ruins"/>
+	<card number="1" name="Chord of Dreaming"/>
+	<card number="1" name="Bundle of Safety"/>
+	<card number="1" name="Blooming Troll"/>
+	<card number="1" name="Thriving Grove"/>
+	<card number="7" name="Forest"/>`;
+	
+	var selectedCount = 0;
+	var buttonArray = [];
+	
+	function borderFcn(selectedButton,randomize) {
+
+		// Function that controls behavior whenever a card face or randomize button is clicked (highlight, update inputs, indices)
+		
+		var reader = new FileReader();
+		
+		if (randomize == true) {
+			
+			// Randomly picks two card faces
+			
+			var firstRandom = document.getElementById('button' + (1 + Math.floor(Math.random() * 11)));
+			var secondRandom = document.getElementById('button' + (1 + Math.floor(Math.random() * 11)));
+	
+			while (secondRandom == firstRandom) { // Keep rerolling the second choice until it's different than the first
+				secondRandom = document.getElementById('button' + (1 + Math.floor(Math.random() * 11)));
+			}
+			
+			// Clear the previous two choices
+			if (buttonArray[0] != undefined) {
+				buttonArray[0].selected = "";
+				buttonArray[0].style.borderColor = "transparent";
+			}
+			if (buttonArray[1] != undefined) {
+				buttonArray[1].selected = "";
+				buttonArray[1].style.borderColor = "transparent";
+			}
+			
+			// Set the randomly chosen choices
+			firstRandom.selected = "selected";
+			firstRandom.style.borderColor = "red";
+			secondRandom.selected = "selected";
+			secondRandom.style.borderColor = "red";
+			buttonArray[0] = firstRandom;
+			buttonArray[1] = secondRandom;
+			
+			selectedCount = 2;
+			
+		} else { 
+		 
+			if ((selectedButton.selected == "")||(selectedButton.selected == undefined)) {
+			   // Select
+			   if (selectedCount < 2) {
+					// Normal select
+					selectedButton.selected = "selected";
+					selectedButton.style.borderColor = "red"; 
+					if (selectedCount <1) {
+						buttonArray[0] = selectedButton;
+					} else {
+						if (buttonArray[0] == undefined) {
+							buttonArray[0] = selectedButton;
+						} else {
+							buttonArray[1] = selectedButton;
+						}
+					}
+					selectedCount++;
+				 } else {
+					// Select and replace oldest selection
+					selectedButton.selected = "selected";
+					selectedButton.style.borderColor = "red";
+					buttonArray[1].selected = "";
+					buttonArray[1].style.borderColor = "transparent";
+					buttonArray[1] = buttonArray[0];
+					buttonArray[0] = selectedButton;
+				 }
+			 } else {
+			   // deselect
+			   selectedButton.selected = "";
+			   selectedButton.style.borderColor = "transparent";
+			   selectedCount--;
+			   if (!isNaN(buttonArray[0])) {
+					if (buttonArray[0].id==selectedButton.id) {
+						delete(buttonArray[0]);
+					} else {
+						delete(buttonArray[1]);
+					}
+			   } else {
+					delete(buttonArray[1]);
+			   }
+			 }
+		}
+		
+		if (selectedCount == 2) {
+			// When 2 packs are selected, enable the download button
+			document.getElementById("downloadButton").disabled = 0;
+			document.getElementById("downloadButtonImage").style.cursor = "pointer";
+			document.getElementById("downloadButtonImage").style.opacity = 1;
+		 } else {
+			document.getElementById("downloadButton").disabled = 1;
+			document.getElementById("downloadButtonImage").style.cursor = "default";
+			document.getElementById("downloadButtonImage").style.opacity = 0.2;
+		}
+
+		if (selectedCount == 2) {
+		
+			// Grab the pack names for each selected (used when exporting)
+			var firstName;
+			var secondName;
+			
+			switch (buttonArray[0]) {
+				case button1:
+					firstName = "Atnas' Workshop";
+					break
+				case button2:
+					firstName = "Snow Day";
+					break
+				case button3:
+					firstName = "Slay Bells";
+					break
+				case button4:
+					firstName = "Coal Crazy";
+					break
+				case button5:
+					firstName = "Winter Woods";
+					break
+				case button6:
+					firstName = "Thirst";
+					break
+				case button7:
+					firstName = "Early Birds";
+					break
+				case button8:
+					firstName = "Time Turners";
+					break
+				case button9:
+					firstName = "Night Owls";
+					break
+				case button10:
+					firstName = "Gift of Giving";
+					break
+				case button11:
+					firstName = "Sleepyheads";
+					break
+			}
+			switch (buttonArray[1]) {
+				case button1:
+					secondName = "Atnas' Workshop";
+					break
+				case button2:
+					secondName = "Snow Day";
+					break
+				case button3:
+					secondName = "Slay Bells";
+					break
+				case button4:
+					secondName = "Coal Crazy";
+					break
+				case button5:
+					secondName = "Winter Woods";
+					break
+				case button6:
+					secondName = "Thirst";
+					break
+				case button7:
+					secondName = "Early Birds";
+					break
+				case button8:
+					secondName = "Time Turners";
+					break
+				case button9:
+					secondName = "Night Owls";
+					break
+				case button10:
+					secondName = "Gift of Giving";
+					break
+				case button11:
+					secondName = "Sleepyheads";
+					break
+			}
+			
+			// Store this info in the download button
+			document.getElementById('downloadButton').firstName = firstName;
+			document.getElementById('downloadButton').secondName = secondName;
+			
+		}
+	}
+	
+	function hoverFcn(selectedButton,state) {
+	
+		// Function that gives a cute highlight to packs when hovering over them
+		
+		if ((state == 1) && (selectedButton.selected != "selected")) {
+			selectedButton.style.borderColor = "pink";
+		 } else if ((state == 2) && (selectedButton.selected != "selected")) {
+			selectedButton.style.borderColor = "transparent";
+		 }
+	}
+	
+	function downloadDecklist(deckname1,deckname2) {
+	
+		// Using the info stored from borderFcn, write the deck name and export (called when the download button is clicked)
+	
+		// Format and write decklist
+		const arrayIndex1 = deckname1.match(/\d+$/)[0];
+		const arrayIndex2 = deckname2.match(/\d+$/)[0];
+		const decklist1 = decklistArray[arrayIndex1-1];
+		const decklist2 = decklistArray[arrayIndex2-1];
+		const text = topMatter + "\n" + decklist1 + "\n" + decklist2 + "\n" + bottomMatter;
+		
+		// Write deck/file name
+        const firstName = document.getElementById('downloadButton').firstName;
+		const secondName = document.getElementById('downloadButton').secondName;
+		const filename = firstName + '+' + secondName + '.cod';
+
+		// Wacky exporting stuff
+        const blob = new Blob([text], {type: 'text/plain'});
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = filename;
+        link.href = url;
+        link.click();
+        URL.revokeObjectURL(url);
+		
+    }
+	
+	function compilerLink(url) {
+		
+		window.location.href = url;
+		
+	}
+	
+    window.addEventListener('load', function() {
+	
+	  // Function that calls as soon as the page is loaded to resize everything to fit the screen
+	
+	  // Set pack heights
+      const buttonButtons = document.querySelectorAll('.buttonButton');
+	  const monitorHeight = window.innerHeight;
+	  const buttonHeight = monitorHeight * 0.35;
+      buttonButtons.forEach(function(buttonButton) {
+		buttonButton.style.height = `${buttonHeight}px`;
+	  });
+	  
+	  // Set header banner and compiled line (footer banner) width to be slightly larger than the pack grid, and set the compiled line to be the same height as the header
+	  const imgTable = document.querySelector('.imageGrid');
+	  const tableWidth = imgTable.offsetWidth;
+	  const headerWidth = tableWidth * 1.15;
+	  const headerContainer = document.querySelector('.headerContainer');
+	  const compiledLineContainer = document.querySelector('.compiledLineContainer');
+	  const compiledLine = document.querySelector('.compiledLine');
+	  const compiledLineHeight = headerContainer.clientHeight;
+	  headerContainer.style.width = `${headerWidth}px`;
+	  compiledLine.style.height = `${compiledLineHeight}px`;
+	  
+	  // Resize randomizer button
+	  const randomButton = document.querySelector('.randomButton');
+	  randomButton.style.width = `${compiledLineHeight}px`;
+	  
+	  // Resize the font of the menu tabs so that they fit into their tab images
+	  const aboutTabText = document.querySelector('.aboutTabText');
+	  const compileTabText = document.querySelector('.compilerTabText');
+	  const galleryTabText = document.querySelector('.galleryTabText');
+	  const compileParent = compileTabText.parentElement;
+	  var compileParentWidth = compileParent.offsetWidth;
+	  var compileTabTextWidth = compileTabText.offsetWidth + compileTabText.offsetLeft;
+	  var tempSpan = document.createElement("span"); // Define a temp div to perform sizing operations on
+	  tempSpan.innerHTML = compileTabText.innerHTML;
+      tempSpan.style.visibility = "hidden";
+      tempSpan.style.position = "absolute";
+      tempSpan.style.fontSize = parseFloat(window.getComputedStyle(compileTabText).getPropertyValue("font-size")) + "px";
+      document.body.appendChild(tempSpan);
+	  var targetWidth = 0.8 * compileParentWidth; // We want the words to be 80% the image width
+	  var textWidth = tempSpan.offsetWidth;
+	  var fontSize = parseFloat(window.getComputedStyle(tempSpan).getPropertyValue("font-size"));
+	  if (textWidth > targetWidth) { // Loop around and increment the font until the words fit
+		while (textWidth > targetWidth && fontSize > 0) {
+		  fontSize -= 1;
+		  tempSpan.style.fontSize = fontSize + "px";
+		  textWidth = tempSpan.offsetWidth + tempSpan.offsetLeft;
+		}
+	  } else {
+		while (textWidth < targetWidth) {
+		  fontSize += 1;
+		  tempSpan.style.fontSize = fontSize + "px";
+		  textWidth = tempSpan.offsetWidth + tempSpan.offsetLeft;
+		}
+	  }
+	  aboutTabText.style.fontSize = fontSize + "px"; // Set the final font size
+	  compileTabText.style.fontSize = fontSize + "px";
+	  galleryTabText.style.fontSize = fontSize + "px";
+	  document.body.removeChild(tempSpan); // Remove the temp div, we don't need it anymore
+	  
+	  if (window.innerHeight > window.innerWidth) {
+		// Apply different formatting if the client is a phone (assumed that if it's taller than it is wide, it's a phone)
+		resizeForMobile();
+	  }
+	  
+    });
+	
+	function resizeForMobile() {
+			
+		// First, reformat the tables to be 3-wide to better fit a vertical screen
+		
+		// Get the existing table element
+		var originalTable = document.querySelector('.imageGrid');
+	
+		// Create a new table element
+		var newTable = document.createElement('table');
+		var newRow = document.createElement('tr');
+
+		// Iterate through the columns of the original table
+		for (var j = 0; j < originalTable.rows[0].cells.length; j++) {
+
+		  // Iterate through the rows of the original table
+		  for (var i = 0; i < originalTable.rows.length; i++) {
+			var row = originalTable.rows[i];
+
+			// Clone the button element from the original cell
+			var cell = row.cells[j];
+			var button = cell.querySelector('button');
+			var newButton = button.cloneNode(true);
+			
+			// Create a new row for the new table
+			if (newRow.cells.length == 3) {
+				var newRow = document.createElement('tr');
+			}
+			
+			// Create a new cell for the new row
+			var newCell = document.createElement('td');
+
+			// Append the cloned button to the new cell
+			newCell.appendChild(newButton);
+
+			// Append the new cell to the new row
+			newRow.appendChild(newCell);
+			
+			if ((newRow.cells.length == 3) || ((j == originalTable.rows[0].cells.length-1) && (i == originalTable.rows.length-1))) {
+		    // Append the new row to the new table
+		    newTable.appendChild(newRow);
+			}
+			
+		  }
+		  
+		}
+
+		// Replace the original table with the new table
+		newTable.className = originalTable.className;
+		originalTable.parentNode.replaceChild(newTable, originalTable);
+		
+		// Next, resize all the rest of the elements around the grid
+		
+		// Resizing the pack faces
+		const buttonButtons = document.querySelectorAll('.buttonButton');
+		const monitorHeight = window.innerHeight;
+		const monitorWidth = window.innerWidth;
+		const buttonHeight = monitorHeight * 0.2;
+		buttonButtons.forEach(function(buttonButton) {
+			buttonButton.style.height = `${buttonHeight}px`;
+		});
+
+		// Center-align the table
+		var originalTable = document.querySelector('.imageGrid');
+		originalTable.classList.add('center-align');
+		
+		// Resizing the width and height of the header and compiled line
+		var compiledLineContainer = document.querySelector('.compiledLineContainer');
+		compiledLineContainer.style.width = '100%';
+		const headerContainer = document.querySelector('.headerContainer');
+		var targetHeaderContainerHeight = monitorHeight*0.1;
+		var targetHeaderContainerWidth = monitorWidth* 0.95;
+		headerContainer.style.height = `${targetHeaderContainerHeight}px`;
+		headerContainer.style.lineHeight = `${targetHeaderContainerHeight}px`;
+		headerContainer.style.width = `${targetHeaderContainerWidth}px`;
+		headerContainer.style.marginTop = '2%';
+		const compiledLine = document.querySelector('.compiledLine');
+		compiledLine.style.height = `${targetHeaderContainerHeight*0.8}px`;
+		compiledLine.style.marginRight = '3%';
+		
+		// Resizing the fonts for the header and compiled line
+		const headerText = document.querySelector('.headerText');
+		headerText.style.fontSize = '400%';
+		headerText.style.paddingTop = '0%';
+		const compiledHeaderText = document.querySelector('.compiledHeaderText');
+		compiledHeaderText.style.fontSize = headerText.style.fontSize;
+		
+		// Resizing the bottom bits
+		const randomButton = document.querySelector('.randomButton');
+		randomButton.style.width = compiledLine.style.height;
+		randomButton.style.marginLeft = '0%';
+		const compiledHeader = document.querySelector('.compiledHeader');
+		compiledHeader.style.width = '70%';
+		const downloadButtonContainer = document.querySelector('.downloadButtonContainer');
+		downloadButtonContainer.style.width = '100%';
+
+		// Next, take the menu tabs and move them from the left-hand side to just below the header
+		
+		// Map out the page layout
+		const masterTable = document.querySelector('.masterTable')
+		var centerLeftCell = masterTable.rows[1].cells[0];
+		var topCenterCell = masterTable.rows[0].cells[0];
+
+		// Find the tabs in the center-left cell
+		var compilerTab = centerLeftCell.querySelector('.compilerTab');
+		var galleryTab = centerLeftCell.querySelector('.galleryTab');
+		var aboutTab = centerLeftCell.querySelector('.aboutTab');
+		var downloadTab = centerLeftCell.querySelector('.downloadTab');
+
+		// Remove the tabs from the center-left cell
+		centerLeftCell.removeChild(compilerTab);
+		centerLeftCell.removeChild(galleryTab);
+		centerLeftCell.removeChild(aboutTab);
+		centerLeftCell.removeChild(downloadTab);
+
+		// Append the tabs to the top-center cell (right below the header)
+		topCenterCell.appendChild(aboutTab);
+		topCenterCell.appendChild(compilerTab);
+		topCenterCell.appendChild(galleryTab);
+		topCenterCell.appendChild(downloadTab);
+		
+		// Finally, the last little bits of resizing
+		
+		// Menu tabs resizing
+		aboutTab.style.marginTop = '0%';
+		aboutTab.style.marginBottom = '1%';
+		compilerTab.style.marginTop = '0%';
+		galleryTab.style.marginTop = '1%';
+		galleryTab.style.marginBottom = '0%';
+		downloadTab.style.marginTop = '1%';
+		downloadTab.style.marginBottom = '1%';
+		var tabHeight = monitorHeight*0.04;
+		compilerTab.style.height = `${tabHeight}px`;
+		galleryTab.style.height = compilerTab.style.height;
+		aboutTab.style.height = compilerTab.style.height;
+		downloadTab.style.height = compilerTab.style.height;
+		compilerTab.style.backgroundImage = "url('goldbar.png')";
+		galleryTab.style.backgroundImage = compilerTab.style.backgroundImage;
+		aboutTab.style.backgroundImage = compilerTab.style.backgroundImage;
+		downloadTab.style.backgroundImage = compilerTab.style.backgroundImage;
+		compilerTab.style.width = '51%';
+		galleryTab.style.width = compilerTab.style.width;
+		aboutTab.style.width = compilerTab.style.width;
+		downloadTab.style.width = compilerTab.style.width;
+		
+		// Menu tab text resizing
+		var compilerTabText = document.querySelector('.compilerTabText');
+		var galleryTabText = document.querySelector('.galleryTabText');
+		var aboutTabText = document.querySelector('.aboutTabText');
+		var downloadTabText = document.querySelector('.downloadTabText');
+		compilerTabText.style.fontSize = '375%';
+		galleryTabText.style.fontSize = compilerTabText.style.fontSize;
+		aboutTabText.style.fontSize = compilerTabText.style.fontSize;
+		downloadTabText.style.fontSize = compilerTabText.style.fontSize;
+		
+		// Stretch out the middle column to center everything, since it holds all of our content now
+		var middleCol = document.querySelector('.middleCol');
+		middleCol.style.width = '100%';
+		
+		// Reizing and centering the compiled line
+		var bottomLeft = document.querySelector('.bottomLeft')
+		var bottomRight = document.querySelector('.bottomRight')
+		bottomLeft.style.width = '2.5%';
+		bottomRight.style.width = '2.5%';
+		
+		// Surely this does something
+		var middleRow = document.querySelector('.middleRow')
+		middleRow.style.height = '50%';
+		
+		// Set a new border size for the pack faces
+		var images = document.getElementsByTagName('img');
+		for (var i = 0; i < images.length; i++) {
+		
+		  var image = images[i];
+		  image.style.borderWidth = '10px';
+		  image.style.borderRadius = '6.5%';
+		  
+		}
+		
+	}
+		
+</script>
+</body>
+
+</html>

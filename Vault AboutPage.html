@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Custom Magic Jumpstart Compiler</title>
+<link rel="icon" type="image/x-icon" href="/CMfavicon.ico">
+<meta charset="UTF-8">
+<meta name="description" content="Compiler used for Custom Magic jumpstart playtesting.">
+<style>
+
+      *{
+        margin: 0;
+        padding: 0;
+      }
+      
+	  @font-face{
+		font-family: "Bank Gothic";
+		src: url('BankGothic Bold.ttf');
+	  }
+	  
+	  @font-face{
+		font-family: "Alegreya";
+		src: url('AlegreyaSC-Medium.ttf');
+	  }
+	  
+	  body{
+		font-family: "Bank Gothic";
+		background-image: url('grey-blue-marble-texture 4.png');
+		background-size: 100% 1000px;
+		background-repeat: repeat-y;
+	  }
+	  
+	  button{
+		width: 100%;
+		appearance: none; 
+		background-color: transparent;
+		border: transparent
+      }
+	  
+      img{
+        width: 100%;
+		border: 1px solid transparent;
+		border-radius: 4.5%;
+		cursor: pointer;
+		appearance: none;
+		position: sticky;
+      }
+	  
+      h1{
+		margin-left: auto;
+		margin-right: auto;
+		color: #755301;
+		text-align: center;
+		padding-top: 0.75%;
+	  }
+
+	  .packGrid{
+		width: 85%;
+		border-spacing: 0px;
+	  }
+	  
+	  .lastRow{
+		width: 85%;
+		border-spacing: 0px;
+		margin-bottom: 2%;
+	  }
+	  
+	  .downloadButton{
+		text-align: center;
+	  }
+	  
+	  .headerContainer{
+		z-index: -1;
+		background-image: url('goldbar.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: 55% 100%;
+		width: 100%;
+		height: 60px;
+		line-height: 60px;
+		margin-top: 2%;
+		margin-bottom: 2%;
+	  }
+	  
+	  .headerContainerText{
+		padding-top: 0%;
+	  }
+	  
+	  .aboutTab{
+		width: 98%;
+		background-image: url('goldbarTrim.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: 100% 100%;
+		height: 8%;
+	  }
+	  
+	  .compilerTab{
+		width: 98%;
+		background-image: url('goldbarTrim.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: 100% 100%;
+		height: 8%;
+		margin-top: 6%;
+	  }
+	  
+	  .galleryTab{
+		width: 98%;
+		background-image: url('goldbarTrim.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: 100% 100%;
+		height: 8%;
+		margin-top: 6%;
+	  }
+	  
+	  .downloadTab{
+		width: 98%;
+		background-image: url('goldbarTrim.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: 100% 100%;
+		height: 8%;
+		margin-top: 6%;
+	  }
+	  
+	  .aboutTabText{
+		font-family: "Bank Gothic";
+		z-index: 100;
+		margin-top: 1.2%;
+		margin-left: 0%;
+		font-size: 180%;
+		color: #755301;
+		display: block;
+		cursor: pointer;
+	  }
+	  
+	  .compilerTabText{
+		font-family: "Bank Gothic";
+		z-index: 100;
+		margin-top: 1.2%;
+		margin-left: 0%;
+		font-size: 180%;
+		color: #755301;
+		display: block;
+		cursor: pointer;
+	  }
+	  
+	  .galleryTabText{
+		font-family: "Bank Gothic";
+		z-index: 101;
+		margin-top: 5.2%;
+		margin-left: 0%;
+		font-size: 180%;
+		color: #755301;
+		cursor: pointer;
+	  }
+	  
+	  .downloadTabText{
+		font-family: "Bank Gothic";
+		z-index: 101;
+		margin-top: 5.2%;
+		margin-left: 0%;
+		font-size: 180%;
+		color: #755301;
+		cursor: pointer;
+	  }
+	  
+	  .packHeaderContainer{
+		z-index: -1;
+		background-image: url('goldbar.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: 95% 100%;
+		width: 100%;
+		height: 50px;
+		line-height: 50px;
+		margin-top: 1.5%;
+		margin-bottom: 1.5%;
+	  }
+	  
+	  .packName{
+		font-size: 180%;
+		padding-top: 0%;
+	  }
+	  
+	  .firstPackName{
+		font-size: 180%;
+		margin-top: -0.4%;
+		padding-top: 0%;
+	  }
+	  
+	  .overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.7); /* Transparent gray overlay */
+		z-index: 1;
+		cursor: pointer;
+	 }
+
+	  .center-align {
+		margin: 0 auto;
+	 }	 
+	 
+	 .expandCoin{
+		width: 40px;
+		margin-top: 10%;
+	 }
+	 
+	 .packHeaderLine{
+		width: 50%;
+		margin: 1% auto;
+	 }
+	 
+	 .textBox{
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: 95% 100%;
+		padding-left: 11%;
+		padding-right: 11%;
+		padding-top: 3%;
+		padding-bottom: 1%;
+		font-family: "Alegreya";
+		font-size: 150%;
+	 }
+	 
+	 .textBoxContainer{
+		background-image: url('largeTextBoxGold.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: 88% 100%;
+		height: 100%;
+		color: #755301;
+		margin-bottom: 1%;
+	 }
+	  
+    </style>
+</head>
+
+<body>
+
+<table style="border-spacing:0; width:100%; height:100%">
+
+<tr>
+
+<td class="leftCell" style="vertical-align:top; width:12.5%">
+
+<button class="aboutTab" onclick="compilerLink('Vault AboutPage.html')">
+	<a class="aboutTabText" onclick="compilerLink('Vault AboutPage.html')">ABOUT</a>
+</button>
+
+<button class="compilerTab" onclick="compilerLink('default.html')">
+	<a class="compilerTabText" onclick="compilerLink('default.html')">COMPILER</a>
+</button>
+
+<button class="galleryTab" onclick="compilerLink('Vault Gallery.html')">
+	<a class="galleryTabText" onclick="compilerLink('Vault Gallery.html')">GALLERY</a>
+</button>
+
+<button class="downloadTab" onclick="compilerLink('Vault DownloadPage.html')">
+	<a class="downloadTabText" onclick="compilerLink('Vault DownloadPage.html')">DOWNLOAD</a>
+</button>
+
+</td>
+
+<td class="rightCell" style="vertical-align: top;">
+
+<div class="headerContainer">
+	<h1 class="headerContainerText">About The Vault</h1>
+</div>
+
+<div class="textBoxContainer">
+	<p class="textBox">
+		<i><b>The lock finally clicks into place, and the vault door creaks open...</b></i> <br></br>
+		
+		The Custom Magic Vault is a collection of all jumpstart packs created by the Custom Magic 
+		Discord community through seasonal events. Here you can view the cards, compile Jumpstart 
+		decks with packs of your choice, or even let us randomly choose your deck for you. <br></br>
+		
+		In the <b>COMPILE</b> tab, you can export any deck you wish to a Cockatrice-playable file. Select
+		the packs you want by either clicking them or hitting the randomize button on the bottom right,
+		then export with the download button at the bottom. All you need to do then is import the deck
+		using Cockatrice and play. <b>NOTE:</b> You will need to download Cockatrice and the set file for these
+		cards in the <b>DOWNLOAD</b> tab to play with them. <br></br>
+		
+		In the <b>GALLERY</b> tab, you can see all of the cards that the community has made over the years. Select
+		the drop-down for the packs you wish to see, and click on the card if you want to see it closer.
+		Over time, these cards will get tweaked a bit by the community to make it even better. <br></br>
+		
+		In the <b>DOWNLOAD</b> tab, you'll find all of the files you need to play with these cards. <br></br>
+		
+		<b>Have questions? Want to join the fun? Join the Custom Magic Discord Community here:</b>
+	</p>
+	<p class="textBox" style="text-align: center; padding-top: 0%; padding-bottom: 3%; color:#755301">
+		<a class="link" href="https://discord.com/invite/custommagic">https://discord.com/invite/custommagic</a>
+	</p>
+</div>
+
+</td>
+</tr>
+
+</table>
+
+<script>
+
+	function compilerLink(url) {
+		window.location.href = url;
+	}
+	
+	function expandTable(id) {
+	
+		const coinList = document.querySelectorAll('.expandCoin');
+	
+		if (id == "last") {
+			const table = document.querySelector('.lastRow');
+			if (table.hidden == false) {
+				table.hidden = true;
+				coinList[7].style.transform = "rotate(0deg)";
+			} else {
+				table.hidden = false;
+				coinList[7].style.transform = "rotate(180deg)";
+			}
+		} else {
+			const tableList = document.querySelectorAll('.packGrid');
+			if (tableList[id-1].hidden == false) {
+				tableList[id-1].hidden = true;
+				coinList[id-1].style.transform = "rotate(0deg)";
+			} else {
+				tableList[id-1].hidden = false;
+				coinList[id-1].style.transform = "rotate(180deg)";
+			}
+		}
+		
+	}
+	
+	function enlargeImage(imageId) {
+		
+		// Function to center and enlarge a selected card, apply an overlay behind it, and switch it to go back to normal when clicked again
+		
+		// Get the image element
+		const image = document.getElementById(imageId);
+
+		// Get the parent table cell (of that image
+		const parentCell = image.parentElement;
+
+		// Log the initial size of the image for later
+		image.setAttribute('data-original-width', image.style.width);
+		image.setAttribute('data-original-height', image.style.height);
+		image.setAttribute('data-original-margin', image.style.margin);
+		image.setAttribute('data-parent-cell', image.parentElement.outerHTML);
+		
+		// Shrink the image just a bit so that it can have a nice transition when it's enlarged
+		if (window.innerHeight > window.innerWidth) {
+			image.style.transform = 'scale(0.4)';
+		} else {
+			image.style.transform = 'scale(0.2)';
+		}
+
+		// Create a transparent grey background
+		const backgroundDiv = document.createElement('div');
+		backgroundDiv.id = 'backgroundDiv';
+		backgroundDiv.style.position = 'absolute';
+		backgroundDiv.style.top = 0;
+		backgroundDiv.style.left = 0;
+		backgroundDiv.style.width = '100%';
+		var backgroundHeight = document.documentElement.scrollHeight;
+		backgroundDiv.style.height = `${backgroundHeight}px`;
+		backgroundDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; // Transparent grey color
+		backgroundDiv.style.justifyContent = 'center';
+		backgroundDiv.style.alignItems = 'center';
+		backgroundDiv.style.zIndex = '9999';
+
+		// Append the background div before the image
+		parentCell.insertBefore(backgroundDiv, image);
+
+		// Move the image inside the background div
+		backgroundDiv.appendChild(image);
+	
+		// Set the image styles to enlarge and center it
+		image.style.zIndex = '10000'; // Set a higher z-index for the image
+		image.style.marginLeft = 'auto'; // Center horizontally
+
+		// Set the vertical height so it centers on the current window
+		var windowHeight = window.innerHeight;
+		var imageRect = image.getBoundingClientRect();
+		if (window.innerHeight > window.innerWidth) {
+			image.style.top = `${(windowHeight-imageRect.height/0.4)/2}px`;
+		} else {
+			image.style.top = `${(windowHeight-imageRect.height/0.2)/2}px`;
+		}
+		
+		// Set the correct size and radius for the enlarged image
+		image.style.borderRadius = '4%';
+		if (window.innerHeight > window.innerWidth) {
+			image.style.transform = 'scale(0.75)';
+		} else {
+			image.style.transform = 'scale(0.3)';
+		}
+		
+		// Make it pretty
+		image.style.transition = 'transform 0.3s';
+		
+		// Switch it so that clicking again will return things to normal
+		image.onclick = function(){
+			removeOverlay(imageId)
+		}
+		backgroundDiv.onclick = function(){
+			removeOverlay(imageId)
+		}
+		
+	}
+	
+	function removeOverlay(imageId) {
+
+		// Function to return the enlarged image back to normal and remove the gray overlay
+
+		// 
+		const image = document.getElementById(imageId);
+		const backgroundDiv = document.getElementById('backgroundDiv');
+		const parentCellHTML = image.getAttribute('data-parent-cell');
+
+		// Remove the background div and reset the image styles
+		if (backgroundDiv) {
+		  image.style.width = image.getAttribute('data-original-width');
+		  image.style.height = image.getAttribute('data-original-height');
+		  image.style.margin = image.getAttribute('data-original-margin');
+		  image.style.transform = 'scale(1.0)';
+		  image.style.zIndex = '';
+		  backgroundDiv.parentElement.innerHTML = backgroundDiv.innerHTML
+		}
+
+		// Restore the image back to its original parent cell
+		const originalParentCell = document.createElement('td');
+		originalParentCell.innerHTML = parentCellHTML;
+		image.parentElement.replaceWith(originalParentCell); // Replace the current parent cell with the original one
+		originalParentCell.replaceChildren(image);
+
+
+	}
+	
+	window.addEventListener('load', function() {
+	  
+	  // Function that calls as soon as the page is loaded to resize everything to fit the screen
+	  
+	  // Resize the font of the menu tabs so that they fit into their tab images
+	  const compileTabText = document.querySelector('.compilerTabText');
+	  const galleryTabText = document.querySelector('.galleryTabText');
+	  const downloadTabText = document.querySelector('.downloadTabText');
+	  const compileParent = compileTabText.parentElement;
+	  var compileParentWidth = compileParent.offsetWidth;
+	  var compileTabTextWidth = compileTabText.offsetWidth + compileTabText.offsetLeft;
+	  var tempSpan = document.createElement("span"); // Define a temp div to perform sizing operations on
+	  tempSpan.innerHTML = compileTabText.innerHTML;
+      tempSpan.style.visibility = "hidden";
+      tempSpan.style.position = "absolute";
+      tempSpan.style.fontSize = parseFloat(window.getComputedStyle(compileTabText).getPropertyValue("font-size")) + "px";
+      document.body.appendChild(tempSpan);
+	  var targetWidth = 0.8 * compileParentWidth; // We want the words to be 80% the image width
+	  var textWidth = tempSpan.offsetWidth;
+	  var fontSize = parseFloat(window.getComputedStyle(tempSpan).getPropertyValue("font-size"));
+	  if (textWidth > targetWidth) { // Loop around and increment the font until the words fit
+		while (textWidth > targetWidth && fontSize > 0) {
+		  fontSize -= 1;
+		  tempSpan.style.fontSize = fontSize + "px";
+		  textWidth = tempSpan.offsetWidth + tempSpan.offsetLeft;
+		}
+	  } else {
+		while (textWidth < targetWidth) {
+		  fontSize += 1;
+		  tempSpan.style.fontSize = fontSize + "px";
+		  textWidth = tempSpan.offsetWidth + tempSpan.offsetLeft;
+		}
+	  }
+	  compileTabText.style.fontSize = fontSize + "px"; // Set the final font size
+	  galleryTabText.style.fontSize = fontSize + "px";
+	  downloadTabText.style.fontSize = fontSize + "px";
+	  document.body.removeChild(tempSpan); // Remove the temp div, we don't need it anymore
+	  
+	  // Menu tabs resizing
+	  const monitorHeight = window.innerHeight;
+	  const tabHeight = monitorHeight*0.75*0.08;
+	  const aboutTab = document.querySelector('.aboutTab');
+	  const compileTab = document.querySelector('.compilerTab');
+	  const galleryTab = document.querySelector('.galleryTab');
+	  const downloadTab = document.querySelector('.downloadTab');
+	  const aboutTabOffset = document.querySelector('.textBoxContainer').offsetTop;
+	  aboutTab.style.height = `${tabHeight}px`;
+	  aboutTab.style.marginTop = `${aboutTabOffset}px`;
+	  compileTab.style.height = `${tabHeight}px`;
+	  galleryTab.style.height = `${tabHeight}px`;
+	  downloadTab.style.height = `${tabHeight}px`;
+	  
+	  if (window.innerHeight > window.innerWidth) {
+	  	// Apply different formatting if the client is a phone (assumed that if it's taller than it is wide, it's a phone
+		resizeForMobile();
+	  }
+	  
+    });
+	
+	function resizeForMobile() {
+	
+		// First, take the menu tabs and place them between the header and main content
+		
+		// Map out the page layout
+		var leftCell = document.querySelector('.leftCell');
+		var rightCell = document.querySelector('.rightCell');
+
+		// Get the tabs located in the left cell
+		var aboutTab = leftCell.querySelector('.aboutTab');
+		var compilerTab = leftCell.querySelector('.compilerTab');
+		var galleryTab = leftCell.querySelector('.galleryTab');
+		var downloadTab = leftCell.querySelector('.downloadTab');
+
+		// Create a new div to hold the heading and tabs in the right cell
+		var newDiv = document.createElement('div');
+
+		// Move the tabs to the new div
+		newDiv.appendChild(aboutTab);
+		newDiv.appendChild(compilerTab);
+		newDiv.appendChild(galleryTab);
+		newDiv.appendChild(downloadTab);
+
+		// Insert the new div between the heading and body of the right cell
+		rightCell.insertBefore(newDiv, rightCell.childNodes[2]);
+		
+		// Stretch the main content to full page and center
+		newDiv.style.textAlign = 'center';
+		leftCell.style.width = '0%';
+		
+		// Resize the header and text
+		const monitorHeight = window.innerHeight;
+		const monitorWidth = window.innerWidth;
+		const headerContainer = document.querySelector('.headerContainer');
+		var targetHeaderContainerHeight = monitorHeight*0.075;
+		var targetHeaderContainerWidth = monitorWidth* 0.95;
+		headerContainer.style.height = `${targetHeaderContainerHeight}px`;
+		headerContainer.style.lineHeight = `${targetHeaderContainerHeight}px`;
+		headerContainer.style.backgroundSize = `${targetHeaderContainerWidth}px 100%`;
+		headerContainer.style.marginTop = '2%';
+		const headerText = document.querySelector('.headerContainerText');
+		headerText.style.fontSize = '400%';
+		headerText.style.paddingTop = '0%';
+		
+		// Resize the menu tabs
+		var aboutTab = document.querySelector('.aboutTab');
+		var compilerTab = document.querySelector('.compilerTab');
+		var galleryTab = document.querySelector('.galleryTab');
+		var downloadTab = document.querySelector('.downloadTab');
+		aboutTab.style.marginTop = '0%';
+		compilerTab.style.marginTop = '1%';
+		galleryTab.style.marginTop = '1%';
+		downloadTab.style.marginTop = '1%';
+		downloadTab.style.marginBottom = '2%';
+		var tabHeight = monitorHeight*0.04;
+		compilerTab.style.height = `${tabHeight}px`;
+		galleryTab.style.height = compilerTab.style.height;
+		aboutTab.style.height = compilerTab.style.height;
+		downloadTab.style.height = compilerTab.style.height;
+		compilerTab.style.backgroundImage = "url('goldbar.png')";
+		galleryTab.style.backgroundImage = compilerTab.style.backgroundImage;
+		aboutTab.style.backgroundImage = compilerTab.style.backgroundImage;
+		downloadTab.style.backgroundImage = compilerTab.style.backgroundImage;
+		compilerTab.style.width = '51%';
+		galleryTab.style.width = compilerTab.style.width;
+		aboutTab.style.width = compilerTab.style.width;
+		downloadTab.style.width = compilerTab.style.width;
+		
+		// Resize the menu tab text
+		var compilerTabText = document.querySelector('.compilerTabText');
+		var galleryTabText = document.querySelector('.galleryTabText');
+		var aboutTabText = document.querySelector('.aboutTabText');
+		var downloadTabText = document.querySelector('.downloadTabText');
+		compilerTabText.style.fontSize = '375%';
+		galleryTabText.style.fontSize = compilerTabText.style.fontSize;
+		aboutTabText.style.fontSize = compilerTabText.style.fontSize;
+		downloadTabText.style.fontSize = compilerTabText.style.fontSize;
+		
+		// Get all elements with the class "packHeaderLine"
+		var elements = document.getElementsByClassName('packHeaderLine');
+
+		// Iterate through each pack header line to resize them
+		for (var i = 0; i < elements.length; i++) {
+		  var element = elements[i];
+		  element.style.width = '85%';
+		  element.style.marginTop = '2%';
+		  element.style.marginBottom = '2%';
+		}
+		
+		// Get all elements with the class "packHeaderContainer"
+		var elements = document.getElementsByClassName('packHeaderContainer');
+		packHeaderHeight = (targetHeaderContainerHeight + tabHeight)/2;
+
+		// Iterate through each pack header to resize them
+		for (var i = 0; i < elements.length; i++) {
+		  var element = elements[i];
+		  element.style.backgroundSize = '95% 100%';
+		  element.style.height = `${packHeaderHeight}px`;
+		  element.style.lineHeight = `${packHeaderHeight}px`;
+		  element.children[0].style.fontSize = headerText.style.fontSize;
+		  element.children[0].style.paddingTop = '0%';
+		}
+		
+		var textBox = document.querySelector('.textBox');
+		textBox.style.fontSize = '300%';
+		textBox.style.paddingLeft = '5%';
+		textBox.style.paddingRight = '5%';
+		textBox.style.paddingBottom = '2%';
+		var textBoxContainer = document.querySelector('.textBoxContainer');
+		textBoxContainer.style.backgroundSize = '95% 100%';
+		
+		var link = document.querySelector('.link');
+		link.style.fontSize = '150%';
+		var linkTextBoxList = document.querySelectorAll('.textBox');
+		var linkTextBox = linkTextBoxList[1];
+		linkTextBox.style.paddingBottom = '8%';
+	}
+	
+</script>
+</body>
+
+</html>

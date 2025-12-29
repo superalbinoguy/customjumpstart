@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Custom Magic Jumpstart Compiler</title>
+<link rel="icon" type="image/x-icon" href="/CMfavicon.ico">
+<meta charset="UTF-8">
+<meta name="description" content="Compiler used for Custom Magic jumpstart playtesting.">
+<style>
+
+      *{
+        margin: 0;
+        padding: 0;
+      }
+      
+	  @font-face{
+		font-family: "Bank Gothic";
+		src: url('BankGothic Bold.ttf');
+	  }
+	  
+	  body{
+		font-family: "Bank Gothic";
+		background-image: url('grey-blue-marble-texture 4.png');
+		background-size: 100% 1000px;
+		background-repeat: repeat-y;
+	  }
+	  
+	  button{
+		width: 100%;
+		appearance: none; 
+		background-color: transparent;
+		border: transparent
+      }
+	  
+      img{
+        width: 100%;
+		border: 1px solid transparent;
+		border-radius: 4.5%;
+		cursor: pointer;
+		appearance: none;
+		position: sticky;
+      }
+	  
+      h1{
+		margin-left: auto;
+		margin-right: auto;
+		color: #755301;
+		text-align: center;
+		padding-top: 0.75%;
+	  }
+
+	  .packGrid{
+		width: 85%;
+		border-spacing: 0px;
+	  }
+	  
+	  .lastRow{
+		width: 85%;
+		border-spacing: 0px;
+		margin-bottom: 2%;
+	  }
+	  
+	  .downloadButton{
+		text-align: center;
+	  }
+	  
+	  .headerContainer{
+		z-index: -1;
+		background-image: url('goldbar.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: 55% 100%;
+		width: 100%;
+		height: 60px;
+		line-height: 60px;
+		margin-top: 2%;
+		margin-bottom: 2%;
+	  }
+	  
+	  .headerContainerText{
+		padding-top: 0%;
+	  }
+	  
+	  .aboutTab{
+		width: 98%;
+		background-image: url('goldbarTrim.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: 100% 100%;
+		height: 8%;
+	  }
+	  
+	  .compilerTab{
+		width: 98%;
+		background-image: url('goldbarTrim.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: 100% 100%;
+		height: 8%;
+		margin-top: 6%;
+	  }
+	  
+	  .galleryTab{
+		width: 98%;
+		background-image: url('goldbarTrim.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: 100% 100%;
+		height: 8%;
+		margin-top: 6%;
+	  }
+	  
+	  .downloadTab{
+		width: 98%;
+		background-image: url('goldbarTrim.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: 100% 100%;
+		height: 8%;
+		margin-top: 6%;
+	  }
+	  
+	  .aboutTabText{
+		font-family: "Bank Gothic";
+		z-index: 100;
+		margin-top: 0%;
+		margin-left: 0%;
+		font-size: 180%;
+		color: #755301;
+		display: block;
+		cursor: pointer;
+	  }
+	  
+	  .compilerTabText{
+		font-family: "Bank Gothic";
+		z-index: 100;
+		margin-top: 1.2%;
+		margin-left: 0%;
+		font-size: 180%;
+		color: #755301;
+		display: block;
+		cursor: pointer;
+	  }
+	  
+	  .galleryTabText{
+		font-family: "Bank Gothic";
+		z-index: 101;
+		margin-top: 5.2%;
+		margin-left: 0%;
+		font-size: 180%;
+		color: #755301;
+		cursor: pointer;
+	  }
+	  
+	  .downloadTabText{
+		font-family: "Bank Gothic";
+		z-index: 101;
+		margin-top: 5.2%;
+		margin-left: 0%;
+		font-size: 180%;
+		color: #755301;
+		cursor: pointer;
+	  }
+	  
+	  .packHeaderContainer{
+		z-index: -1;
+		background-image: url('goldbar.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: 95% 100%;
+		width: 100%;
+		height: 50px;
+		line-height: 50px;
+		margin-top: 1.5%;
+		margin-bottom: 1.5%;
+	  }
+	  
+	  .packName{
+		font-size: 180%;
+		padding-top: 0%;
+	  }
+	  
+	  .firstPackName{
+		font-size: 180%;
+		margin-top: -0.4%;
+		padding-top: 0%;
+	  }
+	  
+	  .overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.7); /* Transparent gray overlay */
+		z-index: 1;
+		cursor: pointer;
+	 }
+
+	  .center-align {
+		margin: 0 auto;
+	 }	 
+	 
+	 .expandCoin{
+		width: 40px;
+		margin-top: 10%;
+	 }
+	 
+	 .packHeaderLine{
+		width: 50%;
+		margin: 1% auto;
+	 }
+	  
+    </style>
+</head>
+
+<body>
+
+<table style="border-spacing:0; width:100%">
+
+<tr>
+
+<td class="leftCell" style="vertical-align:top; width:12.5%">
+
+<button class="aboutTab" onclick="compilerLink('Vault AboutPage.html')">
+	<a class="aboutTabText" onclick="compilerLink('Vault AboutPage.html')">ABOUT</a>
+</button>
+
+<button class="compilerTab" onclick="compilerLink('default.html')">
+	<a class="compilerTabText" onclick="compilerLink('default.html')">COMPILER</a>
+</button>
+
+<button class="galleryTab" onclick="compilerLink('Vault Gallery.html')">
+	<a class="galleryTabText" onclick="compilerLink('Vault Gallery.html')">GALLERY</a>
+</button>
+
+<button class="downloadTab" onclick="compilerLink('Vault DownloadPage.html')">
+	<a class="downloadTabText" onclick="compilerLink('Vault DownloadPage.html')">DOWNLOAD</a>
+</button>
+
+</td>
+
+<td class="rightCell">
+
+<div class="headerContainer">
+	<h1 class="headerContainerText">Jumpstart Pack Gallery</h1>
+</div>
+
+<div>
+	<table class="packHeaderLine">
+		<tr>
+			<td class="packHeaderContainer">
+				<h1 class="firstPackName">Atnas' Workshop</h1>
+			</td>
+			<td class="expandCoinContainer">
+				<button onclick="expandTable(1)">
+					<img class="expandCoin" src="expandIconCoin.png" style="transform: rotate(180deg);">
+				</button>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<table class="packGrid" style="solid black;margin-left:auto;margin-right:auto;">
+	<tr>
+		<td>
+			<img data-src="Atnas' Workshop/Bauble Brawler.png" id="1" onclick="enlargeImage(1)"></img>
+		</td>
+		<td>
+			<img data-src="Atnas' Workshop/Snowball Shaper.png" id="2" onclick="enlargeImage(2)"></img>
+		</td>
+		<td>
+			<img data-src="Atnas' Workshop/Rancher-Sheriff.png" id="3" onclick="enlargeImage(3)"></img>
+		</td>
+		<td>
+			<img data-src="Atnas' Workshop/Atnas Big Helper.png" id="4" onclick="enlargeImage(4)"></img>
+		</td>
+		<td>
+			<img data-src="Atnas' Workshop/Boreal Weaver.png" id="5" onclick="enlargeImage(5)"></img>
+		</td>
+		<td>
+			<img data-src="Atnas' Workshop/Atnas Lord of the Workshop.png" id="6" onclick="enlargeImage(6)"></img>
+		</td>
+		<td>
+			<img data-src="Atnas' Workshop/Top Elf.png" id="7" onclick="enlargeImage(7)"></img>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<img data-src="Atnas' Workshop/Mouths to Feed.png" id="8" onclick="enlargeImage(8)"></img>
+		</td>
+		<td>
+			<img data-src="Atnas' Workshop/Potion of Alacrity.png" id="9" onclick="enlargeImage(9)"></img>
+		</td>
+		<td>
+			<img data-src="Atnas' Workshop/Silent Night.png" id="10" onclick="enlargeImage(10)"></img>
+		</td>
+		<td>
+			<img data-src="Atnas' Workshop/Atnas Ousting.png" id="11" onclick="enlargeImage(11)"></img>
+		</td>
+		<td>
+			<img data-src="Atnas' Workshop/Aid of the Hannukah Gnomes.png" id="12" onclick="enlargeImage(12)"></img>
+		</td>
+		<td>
+			<img data-src="Atnas' Workshop/Thriving Workshop.png" id="13" onclick="enlargeImage(13)"></img>
+		</td>
+		<td>
+			<img data-src="Atnas' Workshop/Plains.png" id="14" onclick="enlargeImage(14)"></img>
+		</td>
+	</tr>
+</table>
+
+<div>
+	<table class="packHeaderLine">
+		<tr>
+			<td class="packHeaderContainer">
+				<h1 class="packName">Coal Crazy</h1>
+			</td>
+			<td>
+				<button onclick="expandTable(2)">
+					<img class="expandCoin" src="expandIconCoin.png">
+				</button>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<table class="packGrid" style="solid black;margin-left:auto;margin-right:auto;" hidden>
+	<tr>
+		<td>
+			<img data-src="Coal Crazy/Gift-Giver Wyrmling.png" id="15" onclick="enlargeImage(15)"></img>
+		</td>
+		<td>
+			<img data-src="Coal Crazy/Phoenix Tamer.png" id="16" onclick="enlargeImage(16)"></img>
+		</td>
+		<td>
+			<img data-src="Coal Crazy/Stripes Stocking-Stuffer.png" id="17" onclick="enlargeImage(17)"></img>
+		</td>
+		<td>
+			<img data-src="Coal Crazy/Slay Rider.png" id="18" onclick="enlargeImage(18)"></img>
+		</td>
+		<td>
+			<img data-src="Coal Crazy/Gingerbrute Conductor.png" id="19" onclick="enlargeImage(19)"></img>
+		</td>
+		<td>
+			<img data-src="Coal Crazy/Loathsome Leftovers.png" id="20" onclick="enlargeImage(20)"></img>
+		</td>
+		<td>
+			<img data-src="Coal Crazy/Gift of the Naughty.png" id="21" onclick="enlargeImage(21)"></img>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<img data-src="Coal Crazy/Gather Kindling.png" id="22" onclick="enlargeImage(22)"></img>
+		</td>
+		<td>
+			<img data-src="Coal Crazy/Turbo-Powered Rocket Sleigh.png" id="23" onclick="enlargeImage(23)"></img>
+		</td>
+		<td>
+			<img data-src="Coal Crazy/Warm Welcome.png" id="24" onclick="enlargeImage(24)"></img>
+		</td>
+		<td>
+			<img data-src="Coal Crazy/Curse of Melting.png" id="25" onclick="enlargeImage(25)"></img>
+		</td>
+		<td>
+			<img data-src="Coal Crazy/Grincharmonicon.png" id="26" onclick="enlargeImage(26)"></img>
+		</td>
+		<td>
+			<img data-src="Coal Crazy/Thriving Castle.png" id="27" onclick="enlargeImage(27)"></img>
+		</td>
+		<td>
+			<img data-src="Coal Crazy/Mountain.png" id="28" onclick="enlargeImage(28)"></img>
+		</td>
+	</tr>
+</table>
+
+<div>
+	<table class="packHeaderLine">
+		<tr>
+			<td class="packHeaderContainer">
+				<h1 class="packName">Slay Bells</h1>
+			</td>
+			<td>
+				<button onclick="expandTable(3)">
+					<img class="expandCoin" src="expandIconCoin.png">
+				</button>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<table class="packGrid" style="solid black;margin-left:auto;margin-right:auto;" hidden>
+	<tr>
+		<td>
+			<img data-src="Slay Bells/Gingerdead Man.png" id="29" onclick="enlargeImage(29)"></img>
+		</td>
+		<td>
+			<img data-src="Slay Bells/Spruce Shinobi.png" id="30" onclick="enlargeImage(30)"></img>
+		</td>
+		<td>
+			<img data-src="Slay Bells/Clarrisa Interior Designer.png" id="31" onclick="enlargeImage(31)"></img>
+		</td>
+		<td>
+			<img data-src="Slay Bells/Firecracker Folkbeast.png" id="32" onclick="enlargeImage(32)"></img>
+		</td>
+		<td>
+			<img data-src="Slay Bells/The Grinch.png" id="33" onclick="enlargeImage(33)"></img>
+		</td>
+		<td>
+			<img data-src="Slay Bells/Krampus the Deliverer.png" id="34" onclick="enlargeImage(34)"></img>
+		</td>
+		<td>
+			<img data-src="Slay Bells/Gift-Bearer Oni.png" id="35" onclick="enlargeImage(35)"></img>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<img data-src="Slay Bells/Ten Below.png" id="36" onclick="enlargeImage(36)"></img>
+		</td>
+		<td>
+			<img data-src="Slay Bells/Winters Grasp.png" id="37" onclick="enlargeImage(37)"></img>
+		</td>
+		<td>
+			<img data-src="Slay Bells/Run Away With the Loot.png" id="38" onclick="enlargeImage(38)"></img>
+		</td>
+		<td>
+			<img data-src="Slay Bells/It Came Upon a Midnight Clear.png" id="39" onclick="enlargeImage(39)"></img>
+		</td>
+		<td>
+			<img data-src="Slay Bells/Necronomicooking.png" id="40" onclick="enlargeImage(40)"></img>
+		</td>
+		<td>
+			<img data-src="Slay Bells/Thriving Cottage.png" id="41" onclick="enlargeImage(41)"></img>
+		</td>
+		<td>
+			<img data-src="Slay Bells/Swamp.png" id="42" onclick="enlargeImage(42)"></img>
+		</td>
+	</tr>
+</table>
+
+<div>
+	<table class="packHeaderLine">
+		<tr>
+			<td class="packHeaderContainer">
+				<h1 class="packName">Snow Day</h1>
+			</td>
+			<td>
+				<button onclick="expandTable(4)">
+					<img class="expandCoin" src="expandIconCoin.png">
+				</button>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<table class="packGrid" style="solid black;margin-left:auto;margin-right:auto;" hidden>
+	<tr>
+		<td>
+			<img data-src="Snow Day/Snowball Slinger.png" id="43" onclick="enlargeImage(43)"></img>
+		</td>
+		<td>
+			<img data-src="Snow Day/Caller of Winter.png" id="44" onclick="enlargeImage(44)"></img>
+		</td>
+		<td>
+			<img data-src="Snow Day/Frostborn Faeseeker.png" id="45" onclick="enlargeImage(45)"></img>
+		</td>
+		<td>
+			<img data-src="Snow Day/Winter Alchemist.png" id="46" onclick="enlargeImage(46)"></img>
+		</td>
+		<td>
+			<img data-src="Snow Day/Frosty Snowmage.png" id="47" onclick="enlargeImage(47)"></img>
+		</td>
+		<td>
+			<img data-src="Snow Day/Frigid Snowgenitor.png" id="48" onclick="enlargeImage(48)"></img>
+		</td>
+		<td>
+			<img data-src="Snow Day/Sehnteh the Gift-Bearer.png" id="49" onclick="enlargeImage(49)"></img>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<img data-src="Snow Day/Guided by Reindeer.png" id="50" onclick="enlargeImage(50)"></img>
+		</td>
+		<td>
+			<img data-src="Snow Day/Festive Abduction.png" id="51" onclick="enlargeImage(51)"></img>
+		</td>
+		<td>
+			<img data-src="Snow Day/Midday Snow.png" id="52" onclick="enlargeImage(52)"></img>
+		</td>
+		<td>
+			<img data-src="Snow Day/Snowball Fight.png" id="53" onclick="enlargeImage(53)"></img>
+		</td>
+		<td>
+			<img data-src="Snow Day/Lost in Snow.png" id="54" onclick="enlargeImage(54)"></img>
+		</td>
+		<td>
+			<img data-src="Snow Day/Thriving Cay.png" id="55" onclick="enlargeImage(55)"></img>
+		</td>
+		<td>
+			<img data-src="Snow Day/Island.png" id="56" onclick="enlargeImage(56)"></img>
+		</td>
+	</tr>
+</table>
+
+<div>
+	<table class="packHeaderLine">
+		<tr>
+			<td class="packHeaderContainer">
+				<h1 class="packName">Early Birds</h1>
+			</td>
+			<td>
+				<button onclick="expandTable(5)">
+					<img class="expandCoin" src="expandIconCoin.png">
+				</button>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<table class="packGrid" style="solid black;margin-left:auto;margin-right:auto;" hidden>
+	<tr>
+		<td>
+			<img data-src="Early Birds/Exotic Robin.png" id="57" onclick="enlargeImage(57)"></img>
+		</td>
+		<td>
+			<img data-src="Early Birds/Calm Falconrider.png" id="58" onclick="enlargeImage(58)"></img>
+		</td>
+		<td>
+			<img data-src="Early Birds/Aviary Skydancer.png" id="59" onclick="enlargeImage(59)"></img>
+		</td>
+		<td>
+			<img data-src="Early Birds/Iriark Skyship Captain.png" id="60" onclick="enlargeImage(60)"></img>
+		</td>
+		<td>
+			<img data-src="Early Birds/Reccorian Ripraptors.png" id="61" onclick="enlargeImage(61)"></img>
+		</td>
+		<td>
+			<img data-src="Early Birds/Cleanbeak Behemoth.png" id="62" onclick="enlargeImage(62)"></img>
+		</td>
+		<td>
+			<img data-src="Early Birds/Fealtous Flockmaster.png" id="63" onclick="enlargeImage(63)"></img>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<img data-src="Early Birds/Opal the Uplifter.png" id="64" onclick="enlargeImage(64)"></img>
+		</td>
+		<td>
+			<img data-src="Early Birds/Aerie Matriarch.png" id="65" onclick="enlargeImage(65)"></img>
+		</td>
+		<td>
+			<img data-src="Early Birds/Drop from High.png" id="66" onclick="enlargeImage(66)"></img>
+		</td>
+		<td>
+			<img data-src="Early Birds/Falconriders Mastery.png" id="67" onclick="enlargeImage(67)"></img>
+		</td>
+		<td>
+			<img data-src="Early Birds/Shieldmages Interference.png" id="68" onclick="enlargeImage(68)"></img>
+		</td>
+		<td>
+			<img data-src="Early Birds/Thriving Heath.png" id="69" onclick="enlargeImage(69)"></img>
+		</td>
+		<td>
+			<img data-src="Early Birds/Plains.png" id="70" onclick="enlargeImage(70)"></img>
+		</td>
+	</tr>
+</table>
+
+<div>
+	<table class="packHeaderLine">
+		<tr>
+			<td class="packHeaderContainer">
+				<h1 class="packName">Night Owls</h1>
+			</td>
+			<td>
+				<button onclick="expandTable(6)">
+					<img class="expandCoin" src="expandIconCoin.png">
+				</button>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<table class="packGrid" style="solid black;margin-left:auto;margin-right:auto;" hidden>
+	<tr>
+		<td>
+			<img data-src="Night Owls/Dark Visitor.png" id="71" onclick="enlargeImage(71)"></img>
+		</td>
+		<td>
+			<img data-src="Night Owls/Nightwalker Witch.png" id="72" onclick="enlargeImage(72)"></img>
+		</td>
+		<td>
+			<img data-src="Night Owls/Screeching Menace.png" id="73" onclick="enlargeImage(73)"></img>
+		</td>
+		<td>
+			<img data-src="Night Owls/Harbinger of Deceit.png" id="74" onclick="enlargeImage(74)"></img>
+		</td>
+		<td>
+			<img data-src="Night Owls/Moonmad Marauder.png" id="75" onclick="enlargeImage(75)"></img>
+		</td>
+		<td>
+			<img data-src="Night Owls/Archon of Dusk.png" id="76" onclick="enlargeImage(76)"></img>
+		</td>
+		<td>
+			<img data-src="Night Owls/Scion of the Firmament.png" id="77" onclick="enlargeImage(77)"></img>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<img data-src="Night Owls/Moment of Nightfall.png" id="78" onclick="enlargeImage(78)"></img>
+		</td>
+		<td>
+			<img data-src="Night Owls/Midnight Madness.png" id="79" onclick="enlargeImage(79)"></img>
+		</td>
+		<td>
+			<img data-src="Night Owls/Moonlit Ascent.png" id="80" onclick="enlargeImage(80)"></img>
+		</td>
+		<td>
+			<img data-src="Night Owls/Nights Blessing.png" id="81" onclick="enlargeImage(81)"></img>
+		</td>
+		<td>
+			<img data-src="Night Owls/Encroaching Night.png" id="82" onclick="enlargeImage(82)"></img>
+		</td>
+		<td>
+			<img data-src="Night Owls/Thriving Moor.png" id="83" onclick="enlargeImage(83)"></img>
+		</td>
+		<td>
+			<img data-src="Night Owls/Swamp.png" id="84" onclick="enlargeImage(84)"></img>
+		</td>
+	</tr>
+</table>
+
+<div>
+	<table class="packHeaderLine">
+		<tr>
+			<td class="packHeaderContainer">
+				<h1 class="packName">Sleepyheads</h1>
+			</td>
+			<td>
+				<button onclick="expandTable(7)">
+					<img class="expandCoin" src="expandIconCoin.png">
+				</button>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<table class="packGrid" style="solid black;margin-left:auto;margin-right:auto;" hidden>
+	<tr>
+		<td>
+			<img data-src="Sleepyheads/Resting Raptor.png" id="85" onclick="enlargeImage(85)"></img>
+		</td>
+		<td>
+			<img data-src="Sleepyheads/Slumbering Bear.png" id="86" onclick="enlargeImage(86)"></img>
+		</td>
+		<td>
+			<img data-src="Sleepyheads/Blooming Troll.png" id="87" onclick="enlargeImage(87)"></img>
+		</td>
+		<td>
+			<img data-src="Sleepyheads/Primate Sojourner.png" id="88" onclick="enlargeImage(88)"></img>
+		</td>
+		<td>
+			<img data-src="Sleepyheads/Sedentary Behemoths.png" id="89" onclick="enlargeImage(89)"></img>
+		</td>
+		<td>
+			<img data-src="Sleepyheads/Muse of Stirring Ruins.png" id="90" onclick="enlargeImage(90)"></img>
+		</td>
+		<td>
+			<img data-src="Sleepyheads/Warden of Silence.png" id="91" onclick="enlargeImage(91)"></img>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<img data-src="Sleepyheads/Chord of Dreaming.png" id="92" onclick="enlargeImage(92)"></img>
+		</td>
+		<td>
+			<img data-src="Sleepyheads/Bundle of Safety.png" id="93" onclick="enlargeImage(93)"></img>
+		</td>
+		<td>
+			<img data-src="Sleepyheads/Rise and Fight.png" id="94" onclick="enlargeImage(94)"></img>
+		</td>
+		<td>
+			<img data-src="Sleepyheads/Save Your Strength.png" id="95" onclick="enlargeImage(95)"></img>
+		</td>
+		<td>
+			<img data-src="Sleepyheads/Salmon Run.png" id="96" onclick="enlargeImage(96)"></img>
+		</td>
+		<td>
+			<img data-src="Sleepyheads/Thriving Grove.png" id="97" onclick="enlargeImage(97)"></img>
+		</td>
+		<td>
+			<img data-src="Sleepyheads/Forest.png" id="98" onclick="enlargeImage(98)"></img>
+		</td>
+	</tr>
+</table>
+
+<div>
+	<table class="packHeaderLine">
+		<tr>
+			<td class="packHeaderContainer">
+				<h1 class="packName">Time Turners</h1>
+			</td>
+			<td>
+				<button onclick="expandTable('8')">
+					<img class="expandCoin" src="expandIconCoin.png">
+				</button>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<table class="packGrid" style="solid black;margin-left:auto;margin-right:auto;" hidden>
+	<tr>
+		<td>
+			<img data-src="Time Turners/Gear Keeper.png" id="99" onclick="enlargeImage(99)"></img>
+		</td>
+		<td>
+			<img data-src="Time Turners/Timewinder.png" id="100" onclick="enlargeImage(100)"></img>
+		</td>
+		<td>
+			<img data-src="Time Turners/Timeless Meditator.png" id="101" onclick="enlargeImage(101)"></img>
+		</td>
+		<td>
+			<img data-src="Time Turners/Warphole Hopper.png" id="102" onclick="enlargeImage(102)"></img>
+		</td>
+		<td>
+			<img data-src="Time Turners/Timely Travelers.png" id="103" onclick="enlargeImage(103)"></img>
+		</td>
+		<td>
+			<img data-src="Time Turners/Eternal One.png" id="104" onclick="enlargeImage(104)"></img>
+		</td>
+		<td>
+			<img data-src="Time Turners/Time Wizard.png" id="105" onclick="enlargeImage(105)"></img>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<img data-src="Time Turners/Chronocycle.png" id="106" onclick="enlargeImage(106)"></img>
+		</td>
+		<td>
+			<img data-src="Time Turners/Postreschedule.png" id="107" onclick="enlargeImage(107)"></img>
+		</td>
+		<td>
+			<img data-src="Time Turners/Extended Slumber.png" id="108" onclick="enlargeImage(108)"></img>
+		</td>
+		<td>
+			<img data-src="Time Turners/Teferi Changing Time Zones.png" id="109" onclick="enlargeImage(109)"></img>
+		</td>
+		<td>
+			<img data-src="Time Turners/Temporal Setback.png" id="110" onclick="enlargeImage(110)"></img>
+		</td>
+		<td>
+			<img data-src="Time Turners/Thriving Isle.png" id="111" onclick="enlargeImage(111)"></img>
+		</td>
+		<td>
+			<img data-src="Time Turners/Island.png" id="112" onclick="enlargeImage(112)"></img>
+		</td>
+	</tr>
+</table>
+
+<div>
+	<table class="packHeaderLine">
+		<tr>
+			<td class="packHeaderContainer">
+				<h1 class="packName">Winter Woods</h1>
+			</td>
+			<td>
+				<button onclick="expandTable(9)">
+					<img class="expandCoin" src="expandIconCoin.png">
+				</button>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<table class="packGrid" style="solid black;margin-left:auto;margin-right:auto;" hidden>
+	<tr>
+		<td>
+			<img data-src="Winter Woods/Alpine Protector.png" id="113" onclick="enlargeImage(113)"></img>
+		</td>
+		<td>
+			<img data-src="Winter Woods/Flameborn Hunter.png" id="114" onclick="enlargeImage(114)"></img>
+		</td>
+		<td>
+			<img data-src="Winter Woods/Haunting Ent.png" id="115" onclick="enlargeImage(115)"></img>
+		</td>
+		<td>
+			<img data-src="Winter Woods/Sylvan Lumberjack.png" id="116" onclick="enlargeImage(116)"></img>
+		</td>
+		<td>
+			<img data-src="Winter Woods/Skulking Spruce.png" id="117" onclick="enlargeImage(117)"></img>
+		</td>
+		<td>
+			<img data-src="Winter Woods/Stalwart Lumber.png" id="118" onclick="enlargeImage(118)"></img>
+		</td>
+		<td>
+			<img data-src="Winter Woods/Dayal Rimewood Awakener.png" id="119" onclick="enlargeImage(119)"></img>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<img data-src="Winter Woods/Gruesome Sprucesome.png" id="120" onclick="enlargeImage(120)"></img>
+		</td>
+		<td>
+			<img data-src="Winter Woods/Among the Trees.png" id="121" onclick="enlargeImage(121)"></img>
+		</td>
+		<td>
+			<img data-src="Winter Woods/Treetop Gathering.png" id="122" onclick="enlargeImage(122)"></img>
+		</td>
+		<td>
+			<img data-src="Winter Woods/Winter Waryland.png" id="123" onclick="enlargeImage(123)"></img>
+		</td>
+		<td>
+			<img data-src="Winter Woods/Coldsnap.png" id="124" onclick="enlargeImage(124)"></img>
+		</td>
+		<td>
+			<img data-src="Winter Woods/Thriving Taiga.png" id="125" onclick="enlargeImage(125)"></img>
+		</td>
+		<td>
+			<img data-src="Winter Woods/Forest.png" id="126" onclick="enlargeImage(126)"></img>
+		</td>
+	</tr>
+</table>
+
+<div>
+	<table class="packHeaderLine">
+		<tr>
+			<td class="packHeaderContainer">
+				<h1 class="packName">Gift of Giving</h1>
+			</td>
+			<td>
+				<button onclick="expandTable(10)">
+					<img class="expandCoin" src="expandIconCoin.png">
+				</button>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<table class="packGrid" style="solid black;margin-left:auto;margin-right:auto;" hidden>
+	<tr>
+		<td>
+			<img data-src="Gift of Giving/Antler Archer.png" id="127" onclick="enlargeImage(127)"></img>
+		</td>
+		<td>
+			<img data-src="Gift of Giving/Generous Gifter.png" id="128" onclick="enlargeImage(128)"></img>
+		</td>
+		<td>
+			<img data-src="Gift of Giving/Gift Seeker.png" id="129" onclick="enlargeImage(129)"></img>
+		</td>
+		<td>
+			<img data-src="Gift of Giving/Guardian of Gifts.png" id="130" onclick="enlargeImage(130)"></img>
+		</td>
+		<td>
+			<img data-src="Gift of Giving/Dashing Postmaster.png" id="131" onclick="enlargeImage(131)"></img>
+		</td>
+		<td>
+			<img data-src="Gift of Giving/Listbearer Mage.png" id="132" onclick="enlargeImage(132)"></img>
+		</td>
+		<td>
+			<img data-src="Gift of Giving/Romantic Rosecloth.png" id="133" onclick="enlargeImage(133)"></img>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<img data-src="Gift of Giving/Spirit of Gift Giving.png" id="134" onclick="enlargeImage(134)"></img>
+		</td>
+		<td>
+			<img data-src="Gift of Giving/In the Spirit of Giving.png" id="135" onclick="enlargeImage(135)"></img>
+		</td>
+		<td>
+			<img data-src="Gift of Giving/Chilling Confrontation.png" id="136" onclick="enlargeImage(136)"></img>
+		</td>
+		<td>
+			<img data-src="Gift of Giving/Santa Slash.png" id="137" onclick="enlargeImage(137)"></img>
+		</td>
+		<td>
+			<img data-src="Gift of Giving/Red-Light Sleigh.png" id="138" onclick="enlargeImage(138)"></img>
+		</td>
+		<td>
+			<img data-src="Gift of Giving/Thriving Castle.png" id="139" onclick="enlargeImage(139)"></img>
+		</td>
+		<td>
+			<img data-src="Gift of Giving/Mountain.png" id="140" onclick="enlargeImage(140)"></img>
+		</td>
+	</tr>
+</table>
+
+<div>
+	<table class="packHeaderLine">
+		<tr>
+			<td class="packHeaderContainer">
+				<h1 class="packName">Thirst</h1>
+			</td>
+			<td>
+				<button onclick="expandTable('last')">
+					<img class="expandCoin" src="expandIconCoin.png">
+				</button>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<table class="lastRow" style="solid black;margin-left:auto;margin-right:auto;" hidden>
+	<tr>
+		<td>
+			<img data-src="Thirst/Starved Vampire.png" id="141" onclick="enlargeImage(141)"></img>
+		</td>
+		<td>
+			<img data-src="Thirst/Vampires Apprentice.png" id="142" onclick="enlargeImage(142)"></img>
+		</td>
+		<td>
+			<img data-src="Thirst/Cursed Runecaster.png" id="143" onclick="enlargeImage(143)"></img>
+		</td>
+		<td>
+			<img data-src="Thirst/Nightbane Hunter.png" id="144" onclick="enlargeImage(144)"></img>
+		</td>
+		<td>
+			<img data-src="Thirst/Ominous Host.png" id="145" onclick="enlargeImage(145)"></img>
+		</td>
+		<td>
+			<img data-src="Thirst/Syra Keeper of the Damned.png" id="146" onclick="enlargeImage(146)"></img>
+		</td>
+		<td>
+			<img data-src="Thirst/Stained Baroness.png" id="147" onclick="enlargeImage(147)"></img>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<img data-src="Thirst/Enoch Shadow Eater.png" id="148" onclick="enlargeImage(148)"></img>
+		</td>
+		<td>
+			<img data-src="Thirst/Underhanded Looting.png" id="149" onclick="enlargeImage(149)"></img>
+		</td>
+		<td>
+			<img data-src="Thirst/Violent Transformation.png" id="150" onclick="enlargeImage(150)"></img>
+		</td>
+		<td>
+			<img data-src="Thirst/Chain to the Dark.png" id="151" onclick="enlargeImage(151)"></img>
+		</td>
+		<td>
+			<img data-src="Thirst/Eternal Appetite.png" id="152" onclick="enlargeImage(152)"></img>
+		</td>
+		<td>
+			<img data-src="Thirst/Desolate Castle.png" id="153" onclick="enlargeImage(153)"></img>
+		</td>
+		<td>
+			<img data-src="Thirst/Swamp.png" id="154" onclick="enlargeImage(154)"></img>
+		</td>
+	</tr>
+</table>
+
+</td>
+</tr>
+
+</table>
+
+<script>
+
+	function compilerLink(url) {
+		window.location.href = url;
+	}
+	
+	function expandTable(id) {
+	
+		const coinList = document.querySelectorAll('.expandCoin');
+		const tableList = document.querySelectorAll('.packGrid');
+		const table = document.querySelector('.lastRow');
+	
+		if (id == "last") {
+			if (table.hidden == false) {
+				table.hidden = true;
+				coinList[10].style.transform = "rotate(0deg)";
+			} else {
+				table.hidden = false;
+				coinList[10].style.transform = "rotate(180deg)";
+			}
+			
+			if (table.hidden == false) {
+				const tableImgs = table.querySelectorAll('img');
+				for (var j = 0; j < tableImgs.length; j++) {
+					tableImgs[j].src = tableImgs[j].getAttribute('data-src');
+			}
+		}
+		} else {
+			if (tableList[id-1].hidden == false) {
+				tableList[id-1].hidden = true;
+				coinList[id-1].style.transform = "rotate(0deg)";
+			} else {
+				tableList[id-1].hidden = false;
+				coinList[id-1].style.transform = "rotate(180deg)";
+			}
+			
+			if (tableList[id-1].hidden == false) {
+				const enabledImgList = tableList[id-1].querySelectorAll('img');
+				for (var j = 0; j < enabledImgList.length; j++) {
+					enabledImgList[j].src = enabledImgList[j].getAttribute('data-src');
+				}
+			}
+		}
+		
+		
+		
+	}
+	
+	function enlargeImage(imageId) {
+		
+		// Function to center and enlarge a selected card, apply an overlay behind it, and switch it to go back to normal when clicked again
+		
+		// Get the image element
+		const image = document.getElementById(imageId);
+
+		// Get the parent table cell (of that image
+		const parentCell = image.parentElement;
+
+		// Log the initial size of the image for later
+		image.setAttribute('data-original-width', image.style.width);
+		image.setAttribute('data-original-height', image.style.height);
+		image.setAttribute('data-original-margin', image.style.margin);
+		image.setAttribute('data-parent-cell', image.parentElement.outerHTML);
+		
+		// Shrink the image just a bit so that it can have a nice transition when it's enlarged
+		if (window.innerHeight > window.innerWidth) {
+			image.style.transform = 'scale(0.4)';
+		} else {
+			image.style.transform = 'scale(0.2)';
+		}
+
+		// Create a transparent grey background
+		const backgroundDiv = document.createElement('div');
+		backgroundDiv.id = 'backgroundDiv';
+		backgroundDiv.style.position = 'absolute';
+		backgroundDiv.style.top = 0;
+		backgroundDiv.style.left = 0;
+		backgroundDiv.style.width = '100%';
+		var backgroundHeight = document.documentElement.scrollHeight;
+		backgroundDiv.style.height = `${backgroundHeight}px`;
+		backgroundDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; // Transparent grey color
+		backgroundDiv.style.justifyContent = 'center';
+		backgroundDiv.style.alignItems = 'center';
+		backgroundDiv.style.zIndex = '9999';
+
+		// Append the background div before the image
+		parentCell.insertBefore(backgroundDiv, image);
+
+		// Move the image inside the background div
+		backgroundDiv.appendChild(image);
+	
+		// Set the image styles to enlarge and center it
+		image.style.zIndex = '10000'; // Set a higher z-index for the image
+		image.style.marginLeft = 'auto'; // Center horizontally
+
+		// Set the vertical height so it centers on the current window
+		var windowHeight = window.innerHeight;
+		var imageRect = image.getBoundingClientRect();
+		if (window.innerHeight > window.innerWidth) {
+			image.style.top = `${(windowHeight-imageRect.height/0.4)/2}px`;
+		} else {
+			image.style.top = `${(windowHeight-imageRect.height/0.2)/2}px`;
+		}
+		
+		// Set the correct size and radius for the enlarged image
+		image.style.borderRadius = '4%';
+		if (window.innerHeight > window.innerWidth) {
+			image.style.transform = 'scale(0.75)';
+		} else {
+			image.style.transform = 'scale(0.3)';
+		}
+		
+		// Make it pretty
+		image.style.transition = 'transform 0.3s';
+		
+		// Switch it so that clicking again will return things to normal
+		image.onclick = function(){
+			removeOverlay(imageId)
+		}
+		backgroundDiv.onclick = function(){
+			removeOverlay(imageId)
+		}
+		
+	}
+	
+	function removeOverlay(imageId) {
+
+		// Function to return the enlarged image back to normal and remove the gray overlay
+
+		// 
+		const image = document.getElementById(imageId);
+		const backgroundDiv = document.getElementById('backgroundDiv');
+		const parentCellHTML = image.getAttribute('data-parent-cell');
+
+		// Remove the background div and reset the image styles
+		if (backgroundDiv) {
+		  image.style.width = image.getAttribute('data-original-width');
+		  image.style.height = image.getAttribute('data-original-height');
+		  image.style.margin = image.getAttribute('data-original-margin');
+		  image.style.transform = 'scale(1.0)';
+		  image.style.zIndex = '';
+		  backgroundDiv.parentElement.innerHTML = backgroundDiv.innerHTML
+		}
+
+		// Restore the image back to its original parent cell
+		const originalParentCell = document.createElement('td');
+		originalParentCell.innerHTML = parentCellHTML;
+		image.parentElement.replaceWith(originalParentCell); // Replace the current parent cell with the original one
+		originalParentCell.replaceChildren(image);
+
+
+	}
+	
+	window.addEventListener('load', function() {
+	  
+	  // Function that calls as soon as the page is loaded to resize everything to fit the screen
+	  
+		// For more efficient loading, only set the src of images if their table is enabled
+		const packGridList = document.querySelectorAll('.packGrid');
+		for (var k = 0; k < packGridList.length; k++) {
+			if (packGridList[k].hidden == false) {
+				const enabledImgList = packGridList[k].querySelectorAll('img');
+				for (var j = 0; j < enabledImgList.length; j++) {
+					enabledImgList[j].src = enabledImgList[j].getAttribute('data-src');
+				}
+			}
+		}
+	  
+	  
+	  // Resize the font of the menu tabs so that they fit into their tab images
+	  const aboutTabText = document.querySelector('.aboutTabText');
+	  const compileTabText = document.querySelector('.compilerTabText');
+	  const galleryTabText = document.querySelector('.galleryTabText');
+	  const downloadTabText = document.querySelector('.downloadTabText');
+	  const compileParent = compileTabText.parentElement;
+	  var compileParentWidth = compileParent.offsetWidth;
+	  var compileTabTextWidth = compileTabText.offsetWidth + compileTabText.offsetLeft;
+	  var tempSpan = document.createElement("span"); // Define a temp div to perform sizing operations on
+	  tempSpan.innerHTML = compileTabText.innerHTML;
+      tempSpan.style.visibility = "hidden";
+      tempSpan.style.position = "absolute";
+      tempSpan.style.fontSize = parseFloat(window.getComputedStyle(compileTabText).getPropertyValue("font-size")) + "px";
+      document.body.appendChild(tempSpan);
+	  var targetWidth = 0.8 * compileParentWidth; // We want the words to be 80% the image width
+	  var textWidth = tempSpan.offsetWidth;
+	  var fontSize = parseFloat(window.getComputedStyle(tempSpan).getPropertyValue("font-size"));
+	  if (textWidth > targetWidth) { // Loop around and increment the font until the words fit
+		while (textWidth > targetWidth && fontSize > 0) {
+		  fontSize -= 1;
+		  tempSpan.style.fontSize = fontSize + "px";
+		  textWidth = tempSpan.offsetWidth + tempSpan.offsetLeft;
+		}
+	  } else {
+		while (textWidth < targetWidth) {
+		  fontSize += 1;
+		  tempSpan.style.fontSize = fontSize + "px";
+		  textWidth = tempSpan.offsetWidth + tempSpan.offsetLeft;
+		}
+	  }
+	  aboutTabText.style.fontSize = fontSize + "px"; // Set the final font size
+	  compileTabText.style.fontSize = fontSize + "px";
+	  galleryTabText.style.fontSize = fontSize + "px";
+	  downloadTabText.style.fontSize = fontSize + "px";
+	  document.body.removeChild(tempSpan); // Remove the temp div, we don't need it anymore
+	  
+	  // Menu tabs resizing
+	  const monitorHeight = window.innerHeight;
+	  const tabHeight = monitorHeight*0.75*0.08;
+	  const aboutTab = document.querySelector('.aboutTab');
+	  const compileTab = document.querySelector('.compilerTab');
+	  const galleryTab = document.querySelector('.galleryTab');
+	  const downloadTab = document.querySelector('.downloadTab');
+	  const aboutTabOffset = document.querySelector('.packHeaderLine').offsetTop + document.querySelector('.packHeaderContainer').offsetTop;
+	  aboutTab.style.height = `${tabHeight}px`;
+	  aboutTab.style.marginTop = `${aboutTabOffset}px`;
+	  compileTab.style.height = `${tabHeight}px`;
+	  galleryTab.style.height = `${tabHeight}px`;
+	  downloadTab.style.height = `${tabHeight}px`;
+	  
+	  if (window.innerHeight > window.innerWidth) {
+	  	// Apply different formatting if the client is a phone (assumed that if it's taller than it is wide, it's a phone
+		resizeForMobile();
+	  }
+	  
+    });
+	
+	function resizeForMobile() {
+	
+		// First, take the menu tabs and place them between the header and main content
+		
+		// Map out the page layout
+		var leftCell = document.querySelector('.leftCell');
+		var rightCell = document.querySelector('.rightCell');
+
+		// Get the tabs located in the left cell
+		var aboutTab = leftCell.querySelector('.aboutTab');
+		var compilerTab = leftCell.querySelector('.compilerTab');
+		var galleryTab = leftCell.querySelector('.galleryTab');
+		var downloadTab = leftCell.querySelector('.downloadTab');
+
+		// Create a new div to hold the heading and tabs in the right cell
+		var newDiv = document.createElement('div');
+
+		// Move the tabs to the new div
+		newDiv.appendChild(aboutTab);
+		newDiv.appendChild(compilerTab);
+		newDiv.appendChild(galleryTab);
+		newDiv.appendChild(downloadTab);
+
+		// Insert the new div between the heading and body of the right cell
+		rightCell.insertBefore(newDiv, rightCell.childNodes[2]);
+		
+		// Stretch the main content to full page and center
+		newDiv.style.textAlign = 'center';
+		leftCell.style.width = '0%';
+		
+		// Resize the header and text
+		const monitorHeight = window.innerHeight;
+		const monitorWidth = window.innerWidth;
+		const headerContainer = document.querySelector('.headerContainer');
+		var targetHeaderContainerHeight = monitorHeight*0.075;
+		var targetHeaderContainerWidth = monitorWidth* 0.95;
+		headerContainer.style.height = `${targetHeaderContainerHeight}px`;
+		headerContainer.style.lineHeight = `${targetHeaderContainerHeight}px`;
+		headerContainer.style.backgroundSize = `${targetHeaderContainerWidth}px 100%`;
+		headerContainer.style.marginTop = '2%';
+		const headerText = document.querySelector('.headerContainerText');
+		headerText.style.fontSize = '400%';
+		headerText.style.paddingTop = '0%';
+		
+		// Resize the menu tabs
+		var aboutTab = document.querySelector('.aboutTab');
+		var compilerTab = document.querySelector('.compilerTab');
+		var galleryTab = document.querySelector('.galleryTab');
+		var downloadTab = document.querySelector('.downloadTab');
+		aboutTab.style.marginTop = '0%';
+		compilerTab.style.marginTop = '1%';
+		galleryTab.style.marginTop = '1%';
+		downloadTab.style.marginTop = '1%';
+		downloadTab.style.marginBottom = '0%';
+		var tabHeight = monitorHeight*0.04;
+		compilerTab.style.height = `${tabHeight}px`;
+		galleryTab.style.height = compilerTab.style.height;
+		aboutTab.style.height = compilerTab.style.height;
+		downloadTab.style.height = compilerTab.style.height;
+		compilerTab.style.backgroundImage = "url('goldbar.png')";
+		galleryTab.style.backgroundImage = compilerTab.style.backgroundImage;
+		aboutTab.style.backgroundImage = compilerTab.style.backgroundImage;
+		downloadTab.style.backgroundImage = compilerTab.style.backgroundImage;
+		compilerTab.style.width = '51%';
+		galleryTab.style.width = compilerTab.style.width;
+		aboutTab.style.width = compilerTab.style.width;
+		downloadTab.style.width = compilerTab.style.width;
+		
+		// Resize the menu tab text
+		var compilerTabText = document.querySelector('.compilerTabText');
+		var galleryTabText = document.querySelector('.galleryTabText');
+		var aboutTabText = document.querySelector('.aboutTabText');
+		var downloadTabText = document.querySelector('.downloadTabText');
+		compilerTabText.style.fontSize = '375%';
+		galleryTabText.style.fontSize = compilerTabText.style.fontSize;
+		aboutTabText.style.fontSize = compilerTabText.style.fontSize;
+		downloadTabText.style.fontSize = compilerTabText.style.fontSize;
+		
+		// Get all elements with the class "packHeaderLine"
+		var elements = document.getElementsByClassName('packHeaderLine');
+
+		// Iterate through each pack header line to resize them
+		for (var i = 0; i < elements.length; i++) {
+		  var element = elements[i];
+		  element.style.width = '85%';
+		  element.style.marginTop = '2%';
+		  element.style.marginBottom = '2%';
+		}
+		
+		// Get all elements with the class "packHeaderContainer"
+		var elements = document.getElementsByClassName('packHeaderContainer');
+		packHeaderHeight = (targetHeaderContainerHeight + tabHeight)/2;
+
+		// Iterate through each pack header to resize them
+		for (var i = 0; i < elements.length; i++) {
+		  var element = elements[i];
+		  element.style.backgroundSize = '95% 100%';
+		  element.style.height = `${packHeaderHeight}px`;
+		  element.style.lineHeight = `${packHeaderHeight}px`;
+		  element.children[0].style.fontSize = headerText.style.fontSize;
+		  element.children[0].style.paddingTop = '0%';
+		}
+		
+		// Get all elements with the class "expandCoin"
+		var elements = document.getElementsByClassName('expandCoin');
+		elements[0].style.transform = 'rotate(0deg)'; // Default the first pack to be hidden
+
+		// Iterate through each dropdown icon to resize them
+		for (var i = 0; i < elements.length; i++) {
+		  var element = elements[i];
+		  element.style.width = `${packHeaderHeight*0.95}px`;
+		}
+		
+		// Get all elements with the class "packGrid"
+		var packGrids = document.querySelectorAll('.packGrid');
+		
+		// Iterate through each pack grid to rearrange them to be 3-wide
+		for (var k = 0; k < packGrids.length; k++) {
+		
+			// Create temp elements to manipulate and later use to replace
+			var newTable = document.createElement('table');
+			var newRow = document.createElement('tr');
+			
+			// Select the current pack grid
+			var packGrid = packGrids[k];
+			
+			// Iterate through the columns of the original pack grid
+			for (var j = 0; j < packGrid.rows[0].cells.length; j++) {
+
+			  // Iterate through the rows of the original pack grid
+			  for (var i = 0; i < packGrid.rows.length; i++) {
+				var row = packGrid.rows[i];
+
+				// Clone the button element from the original cell
+				var cell = row.cells[j];
+				var image = cell.querySelector('img');
+				var newImage = image.cloneNode(true);
+				
+				// Create a new row for the new table
+				if (newRow.cells.length == 3) {
+					var newRow = document.createElement('tr');
+				}
+				
+				// Create a new cell for the new row
+				var newCell = document.createElement('td');
+
+				// Append the cloned button to the new cell
+				newCell.appendChild(newImage);
+
+				// Append the new cell to the new row
+				newRow.appendChild(newCell);
+				
+				if ((newRow.cells.length == 3) || ((j == packGrid.rows[0].cells.length-1) && (i == packGrid.rows.length-1))) {
+				// Append the new row to the new table
+				newTable.appendChild(newRow);
+				}
+				
+			  }
+			  
+			}
+			
+			// Replace the original pack grid with the new table
+			newTable.className = packGrid.className;
+			packGrid.parentNode.replaceChild(newTable, packGrid);
+			
+			// Reselect the pack grid list and current pack grid to "refresh" the content
+			var packGrids = document.querySelectorAll('.packGrid');
+			var packGrid = packGrids[k];
+			
+			// Quick reformatting while we're here
+			packGrid.classList.add('center-align');
+			packGrid.style.width = '95%';
+			packGrid.hidden = true;
+			
+		}
+		
+		// Do the same thing as above for the last pack grid
+		var lastPackGrid = document.querySelector('.lastRow');
+		var newTable = document.createElement('table');
+		var newRow = document.createElement('tr');
+		for (var j = 0; j < lastPackGrid.rows[0].cells.length; j++) {
+		  for (var i = 0; i < lastPackGrid.rows.length; i++) {
+			var row = lastPackGrid.rows[i];
+			var cell = row.cells[j];
+			var image = cell.querySelector('img');
+			var newImage = image.cloneNode(true);
+			if (newRow.cells.length == 3) {
+				var newRow = document.createElement('tr');
+			}
+			var newCell = document.createElement('td');
+			newCell.appendChild(newImage);
+			newRow.appendChild(newCell);
+			if ((newRow.cells.length == 3) || ((j == lastPackGrid.rows[0].cells.length-1) && (i == lastPackGrid.rows.length-1))) {
+			newTable.appendChild(newRow);
+			}	
+		  }
+		}
+		newTable.className = lastPackGrid.className;
+		lastPackGrid.parentNode.replaceChild(newTable, lastPackGrid);
+		var lastPackGrid = document.querySelector('.lastRow');
+		lastPackGrid.classList.add('center-align');
+		lastPackGrid.style.marginBottom = '3%';
+		lastPackGrid.style.width = '95%';
+		lastPackGrid.hidden = true;
+		
+		// Iterate through each pack header to resize them
+		var packHeaders = document.querySelectorAll('.packHeaderContainer');
+		for (var i = 0; i < packHeaders.length; i++) {
+		  var packHeader = packHeaders[i];
+		  packHeader.style.marginTop = '2.5%';
+		  packHeader.style.marginBottom = '2.5%';
+		}
+	
+	}
+	
+</script>
+</body>
+
+</html>
