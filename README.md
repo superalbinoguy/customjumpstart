@@ -1,4 +1,6 @@
 # customjumpstart.github.io
-The Official Custom Magic Discord Jumpstart Page!
+
+The unofficial Custom Magic Discord Jumpstart page, only used for testing.
 
 Visit at https://superalbinoguy.github.io/customjumpstart/
+
